@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/connor-carraher/promarc#readme",
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "react-router-dom": "^4.3.1"
   }
 }
