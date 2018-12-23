@@ -9,7 +9,8 @@ class CreatePost extends Component {
   state = {
     data: [],
     id: 0,
-    message: null,
+    description: null,
+    title: null,
     intervalIsSet: false,
     idToDelete: null,
     idToUpdate: null,
@@ -51,7 +52,7 @@ class CreatePost extends Component {
 
   // our put method that uses our backend api
   // to create new query into our data base
-  putDataToDB = message => {
+  putDataToDB = (description, title) => {
     let currentIds = this.state.data.map(data => data.id);
     let idToBeAdded = 0;
     while (currentIds.includes(idToBeAdded)) {
@@ -60,7 +61,8 @@ class CreatePost extends Component {
 
     axios.post("/api/putData", {
       id: idToBeAdded,
-      message: message
+      description: description,
+      title: title
     });
   };
 
@@ -107,57 +109,65 @@ render() {
         {data.length <= 0
           ? "NO DB ENTRIES YET"
           : data.map(dat => (
-              <li style={{ padding: "10px" }} key={data.message}>
+              <li style={{ padding: "10px" }} key={data.title}>
                 <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
                 <span style={{ color: "gray" }}> data: </span>
-                {dat.message}
+                {dat.title}
+                {dat.description}
+                Hello
               </li>
             ))}
       </ul>
       <div style={{ padding: "10px" }}>
         <input
           type="text"
-          onChange={e => this.setState({ message: e.target.value })}
-          placeholder="add something in the database"
+          onChange={e => this.setState({ title: e.target.value })}
+          placeholder="Title"
           style={{ width: "200px" }}
         />
-        <button onClick={() => this.putDataToDB(this.state.message)}>
+        <input
+          type="text"
+          onChange={e => this.setState({ description: e.target.value })}
+          placeholder="Post Description"
+          style={{ width: "200px" }}
+        />
+        <button onClick={() => this.putDataToDB(this.state.description, this.state.title)}>
           ADD
         </button>
       </div>
-      <div style={{ padding: "10px" }}>
-        <input
-          type="text"
-          style={{ width: "200px" }}
-          onChange={e => this.setState({ idToDelete: e.target.value })}
-          placeholder="put id of item to delete here"
-        />
-        <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
-          DELETE
-        </button>
       </div>
-      <div style={{ padding: "10px" }}>
-        <input
-          type="text"
-          style={{ width: "200px" }}
-          onChange={e => this.setState({ idToUpdate: e.target.value })}
-          placeholder="id of item to update here"
-        />
-        <input
-          type="text"
-          style={{ width: "200px" }}
-          onChange={e => this.setState({ updateToApply: e.target.value })}
-          placeholder="put new value of the item here"
-        />
-        <button
-          onClick={() =>
-            this.updateDB(this.state.idToUpdate, this.state.updateToApply)
-          }
-        >
-          UPDATE
-        </button>
-      </div>
-    </div>
+      // <div style={{ padding: "10px" }}>
+      //   <input
+      //     type="text"
+      //     style={{ width: "200px" }}
+      //     onChange={e => this.setState({ idToDelete: e.target.value })}
+      //     placeholder="put id of item to delete here"
+      //   />
+      //   <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
+      //     DELETE
+      //   </button>
+      // </div>
+      // <div style={{ padding: "10px" }}>
+      //   <input
+      //     type="text"
+      //     style={{ width: "200px" }}
+      //     onChange={e => this.setState({ idToUpdate: e.target.value })}
+      //     placeholder="id of item to update here"
+      //   />
+      //   <input
+      //     type="text"
+      //     style={{ width: "200px" }}
+      //     onChange={e => this.setState({ updateToApply: e.target.value })}
+      //     placeholder="put new value of the item here"
+      //   />
+      //   <button
+      //     onClick={() =>
+      //       this.updateDB(this.state.idToUpdate, this.state.updateToApply)
+      //     }
+      //   >
+      //     UPDATE
+      //   </button>
+      // </div>
   );
 }
 }

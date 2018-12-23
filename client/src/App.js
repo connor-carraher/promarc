@@ -107,6 +107,10 @@ class App extends Component {
   render() {
     return (
       <div>
+        <div>
+          <h1>Header placeholder</h1>
+        </div>
+
         <Router>
           {
             (1 != 1) ?
