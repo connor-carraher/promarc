@@ -109,12 +109,11 @@ render() {
         {data.length <= 0
           ? "NO DB ENTRIES YET"
           : data.map(dat => (
-              <li style={{ padding: "10px" }} key={data.title}>
+              <li style={{ padding: "10px" }} key={dat.id}>
                 <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
                 <span style={{ color: "gray" }}> data: </span>
                 {dat.title}
                 {dat.description}
-                Hello
               </li>
             ))}
       </ul>
@@ -127,7 +126,7 @@ render() {
         />
         <input
           type="text"
-          onChange={e => this.setState({ description: e.target.value })}
+          onChange={f => this.setState({ description: f.target.value })}
           placeholder="Post Description"
           style={{ width: "200px" }}
         />
