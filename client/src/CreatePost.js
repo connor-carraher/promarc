@@ -112,7 +112,7 @@ render() {
               <li style={{ padding: "10px" }} key={dat.id}>
                 <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
                 <span style={{ color: "gray" }}> data: </span>
-                {dat.title}
+                {dat.title} <br />
                 {dat.description}
               </li>
             ))}
