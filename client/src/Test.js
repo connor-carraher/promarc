@@ -10,7 +10,7 @@ class Test extends Component{
 render() {
   return (
     <div>
-      Hello!
+      Temporary Logout Page
     </div>
   );
   }

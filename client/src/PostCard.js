@@ -1,7 +1,6 @@
 // /client/App.js
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom'
-import Test from './Test'
 import axios from 'axios'
 
 class PostCard extends Component {

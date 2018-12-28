@@ -7,6 +7,7 @@ import PostCard from './PostCard'
 import Post from './Post'
 import axios from "axios";
 import { Button } from 'reactstrap'
+import Navbar from './Navbar'
 
 class App extends Component {
   state = {
@@ -16,11 +17,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div>
-           <Button href="/createpost">Create Post</Button> <br/>
-           <Button tag='a' href="/viewpost">View Posts</Button>
-        </div>
-
+        <Navbar/>
         <Router>
           <Switch>
             <Route path="/test" component={Test}/>
