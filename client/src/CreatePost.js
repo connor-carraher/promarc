@@ -1,16 +1,22 @@
 // /client/App.js
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom'
-import Test from './Test'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+  withRouter
+} from "react-router-dom";
+import Test from "./Test";
 import axios from "axios";
-import PostCard from './PostCard'
-import { Button } from 'reactstrap'
+import PostCard from "./PostCard";
+import { Button } from "reactstrap";
 
 class CreatePost extends Component {
   state = {
     data: [],
     description: null,
-    title: null,
+    title: null
   };
 
   putDataToDB = (description, title) => {
@@ -49,9 +55,9 @@ class CreatePost extends Component {
   //   });
   // };
 
-render() {
-  const { data } = this.state;
-  return (
+  render() {
+    const { data } = this.state;
+    return (
       <div style={{ padding: "10px" }}>
         <input
           type="text"
@@ -65,7 +71,12 @@ render() {
           placeholder="Post Description"
           style={{ width: "200px" }}
         />
-        <Button onClick={() => this.putDataToDB(this.state.description, this.state.title)} href="/viewpost/">
+        <Button
+          onClick={() =>
+            this.putDataToDB(this.state.description, this.state.title)
+          }
+          href="/viewpost/"
+        >
           ADD
         </Button>
       </div>
@@ -102,8 +113,8 @@ render() {
       //     UPDATE
       //   </button>
       // </div>
-  );
-}
+    );
+  }
 }
 
-export default CreatePost
+export default CreatePost;

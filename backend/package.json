@@ -14,7 +14,8 @@
     "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "prettier": "1.15.3"
   },
   "keywords": [],
   "description": ""

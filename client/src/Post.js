@@ -1,6 +1,12 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom'
-import axios from 'axios'
+import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+  withRouter
+} from "react-router-dom";
+import axios from "axios";
 
 class Post extends Component {
   state = {
@@ -29,19 +35,20 @@ class Post extends Component {
     const { data } = this.state;
     return (
       <div>
-          {!data
-            ? "Post Does Not Exist"
-            :
-            <React.Fragment>
-              <span style={{ color: "gray" }}> id: </span> {data._id} <br/>
-              <span style={{ color: "gray" }}> Title: </span> {data.title} <br/>
-              <span style={{ color: "gray" }}> Description: </span><br/> {data.description} <br/>
-              <hr/>
-            </React.Fragment>
-            }
+        {!data ? (
+          "Post Does Not Exist"
+        ) : (
+          <React.Fragment>
+            <span style={{ color: "gray" }}> id: </span> {data._id} <br />
+            <span style={{ color: "gray" }}> Title: </span> {data.title} <br />
+            <span style={{ color: "gray" }}> Description: </span>
+            <br /> {data.description} <br />
+            <hr />
+          </React.Fragment>
+        )}
       </div>
     );
   }
 }
 
-export default Post
+export default Post;
