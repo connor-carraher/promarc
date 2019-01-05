@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
-const Data = require("./data");
+const { Post, User, Converstation, Message } = require("./data");
 
 const API_PORT = 3001;
 const app = express();
@@ -24,55 +24,49 @@ db.once("open", () => console.log("connected to the database"));
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// (optional) only made for logging and
-// bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
-// this is our get method
-// this method fetches all available data in our database
+/*
+ *
+ *
+ *   Post Endpoints
+ *
+ */
 router.get("/posts", (req, res) => {
-  Data.find((err, data) => {
+  Post.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 
-// this is our get method
-// this method fetches data in our database based on an id
 router.get("/post/:id", (req, res) => {
   const { id } = req.params;
-  Data.findById(id, (err, data) => {
+  Post.findById(id, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 
-// this is our update method
-// this method overwrites existing data in our database
 router.post("/updateData", (req, res) => {
   const { id, update } = req.body;
-  Data.findOneAndUpdate(id, update, err => {
+  Post.findOneAndUpdate(id, update, err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
 });
 
-// this is our delete method
-// this method removes existing data in our database
 router.delete("/deleteData", (req, res) => {
   const { id } = req.body;
-  Data.findOneAndDelete(id, err => {
+  Post.findOneAndDelete(id, err => {
     if (err) return res.send(err);
     return res.json({ success: true });
   });
 });
 
-// this is our create method
-// this method adds new data in our database
 router.post("/putData", (req, res) => {
-  let data = new Data();
+  let data = new Post();
 
   const { description, title } = req.body;
 
@@ -89,6 +83,59 @@ router.post("/putData", (req, res) => {
     return res.json({ success: true });
   });
 });
+
+/*
+ *
+ *
+ *   User Endpoints
+ *
+ */
+router.get("/users", (req, res) => {
+  User.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get("/user/:id", (req, res) => {
+  const { id } = req.params;
+  User.findById(id, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.post("/putUser", (req, res) => {
+  let data = new User();
+
+  const { username, password, posts } = req.body;
+
+  if (!description || !title) {
+    return res.json({
+      success: false,
+      error: "INVALID INPUTS"
+    });
+  }
+  data.title = title;
+  data.description = description;
+  data.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+/*
+ *
+ *
+ *   Message Endpoints
+ *
+ */
+
+/*
+ *
+ *
+ *   Converstation Endpoints
+ *
+ */
 
 // append /api for our http requests
 app.use("/api", router);
