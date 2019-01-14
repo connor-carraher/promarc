@@ -133,7 +133,7 @@ router.post("/putUser", (req, res) => {
 /*
  *
  *
- *   Converstation Endpoints
+ *   Conversation Endpoints
  *
  */
 

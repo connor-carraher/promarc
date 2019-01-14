@@ -18,7 +18,7 @@ const userSchema = new Schema({
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }]
 });
 
-const converstationSchema = new Schema({
+const conversationSchema = new Schema({
   participants: [{ type: Schema.Types.ObjectId, ref: "User" }],
   messages: [{ type: Schema.Types.ObjectId, ref: "Message" }]
 });
@@ -26,9 +26,9 @@ const converstationSchema = new Schema({
 const messageSchema = new Schema(
   {
     content: String,
-    userToo: { type: Schema.Types.ObjectId, ref: "User" },
+    userTo: { type: Schema.Types.ObjectId, ref: "User" },
     userFrom: { type: Schema.Types.ObjectId, ref: "User" },
-    converstation: { type: Schema.Types.ObjectId, ref: "Converstation" }
+    conversation: { type: Schema.Types.ObjectId, ref: "Conversation" }
   },
   { timestamps: true }
 );
@@ -37,4 +37,4 @@ const messageSchema = new Schema(
 module.exports.Post = mongoose.model("Post", postSchema);
 module.exports.User = mongoose.model("User", userSchema);
 module.exports.Message = mongoose.model("Message", messageSchema);
-module.exports.Converstation = mongoose.model("Converstaion", messageSchema);
+module.exports.Conversation = mongoose.model("Conversation", messageSchema);
