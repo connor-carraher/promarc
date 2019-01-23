@@ -14,6 +14,7 @@ import Post from "./Post";
 import axios from "axios";
 import { Button } from "reactstrap";
 import Navbar from "./Navbar";
+import Login from "./Login";
 
 class App extends Component {
   state = {
@@ -30,6 +31,7 @@ class App extends Component {
             <Route path="/createpost" component={CreatePost} />
             <Route path="/viewpost" component={PostCard} />
             <Route path="/post/:id" component={Post} />
+            <Route path="/login" component={Login} />
           </Switch>
         </Router>
       </div>
