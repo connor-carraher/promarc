@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 const DataSchema = new Schema(
   {
     title: String,
-    description: String
+    description: String,
+    skills: String
   },
   { timestamps: true }
 );

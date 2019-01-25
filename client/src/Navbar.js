@@ -25,17 +25,33 @@ class Navbar extends Component {
   render() {
     return (
       <div>
-        <ReactstrapNavbar color="light" light expand="md">
-          <NavbarBrand href="/">Promarc</NavbarBrand>
+        <ReactstrapNavbar style={{ backgroundColor: "#069BEE" }} expand="md">
+          <NavbarBrand
+            href="/"
+            style={{
+              backgroundColor: "#FFFFFF",
+              borderRadius: "3px",
+              paddingLeft: "15px",
+              paddingRight: "15px"
+            }}
+          >
+            Promarc
+          </NavbarBrand>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="/createpost/">Create Post</NavLink>
+              <NavLink href="/createpost/" style={{ color: "#FFFFFF" }}>
+                Create Post
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/viewpost/">View Post</NavLink>
+              <NavLink href="/viewpost/" style={{ color: "#FFFFFF" }}>
+                View Post
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/test">Logout</NavLink>
+              <NavLink href="/test" style={{ color: "#FFFFFF" }}>
+                Logout
+              </NavLink>
             </NavItem>
           </Nav>
         </ReactstrapNavbar>
