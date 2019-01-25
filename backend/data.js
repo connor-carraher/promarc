@@ -7,15 +7,16 @@ const postSchema = new Schema(
   {
     title: String,
     description: String,
-    createdBy: { type: Schema.Types.ObjectId, ref: "User" }
+    createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+    skills: [String]
   },
   { timestamps: true }
 );
 
 const userSchema = new Schema({
   username: String,
-  password: String,
-  posts: [{ type: Schema.Types.ObjectId, ref: "Post" }]
+  posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+  conversations: [{ type: Schema.Types.ObjectId, ref: "Conversation" }]
 });
 
 const conversationSchema = new Schema({

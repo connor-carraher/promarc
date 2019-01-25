@@ -68,9 +68,9 @@ router.delete("/deleteData", (req, res) => {
 router.post("/putData", (req, res) => {
   let data = new Post();
 
-  const { description, title } = req.body;
+  const { description, title, createdBy, skills } = req.body;
 
-  if (!description || !title) {
+  if (!description || !title || !skills || !createdBy) {
     return res.json({
       success: false,
       error: "INVALID INPUTS"
@@ -78,6 +78,8 @@ router.post("/putData", (req, res) => {
   }
   data.title = title;
   data.description = description;
+  data.skills = skills;
+  data.createdBy = createdBy;
   data.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
@@ -107,18 +109,17 @@ router.get("/user/:id", (req, res) => {
 
 router.post("/putUser", (req, res) => {
   let data = new User();
-
-  const { username, password, posts } = req.body;
-
-  if (!description || !title) {
-    return res.json({
-      success: false,
-      error: "INVALID INPUTS"
-    });
-  }
-  data.title = title;
-  data.description = description;
+  const { username } = req.body;
+  data.username = username;
   data.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.post("/updateUser", (req, res) => {
+  const { id, update } = req.body;
+  User.findOneAndUpdate(id, update, err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
