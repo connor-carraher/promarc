@@ -116,8 +116,7 @@ class CreatePost extends Component {
               </FormGroup>
 
               <Button
-                color="primary"
-                style={{ float: "right" }}
+                style={{ float: "right", backgroundColor: "#069BEE" }}
                 onClick={() =>
                   this.putDataToDB(
                     this.state.description,
