@@ -8,7 +8,7 @@ const postSchema = new Schema(
     title: String,
     description: String,
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-    skills: [String]
+    skills: String
   },
   { timestamps: true }
 );

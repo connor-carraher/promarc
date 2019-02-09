@@ -10,19 +10,31 @@ import {
 import Test from "./Test";
 import axios from "axios";
 import PostCard from "./PostCard";
-import { Button } from "reactstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText
+} from "reactstrap";
 
 class CreatePost extends Component {
   state = {
     data: [],
     description: null,
-    title: null
+    title: null,
+    skills: null
   };
 
-  putDataToDB = (description, title) => {
+  putDataToDB = (description, title, skills) => {
     axios.post("/api/putData", {
       description: description,
-      title: title
+      title: title,
+      skills: skills
     });
   };
 
@@ -58,29 +70,68 @@ class CreatePost extends Component {
   render() {
     const { data } = this.state;
     return (
-      <div style={{ padding: "10px" }}>
-        <input
-          type="text"
-          onChange={e => this.setState({ title: e.target.value })}
-          placeholder="Title"
-          style={{ width: "200px" }}
-        />
-        <input
-          type="text"
-          onChange={e => this.setState({ description: e.target.value })}
-          placeholder="Post Description"
-          style={{ width: "200px" }}
-        />
-        <Button
-          onClick={() =>
-            this.putDataToDB(this.state.description, this.state.title)
-          }
-          href="/viewpost/"
+      <div style={{ height: "80%", paddingTop: "20px" }}>
+        <Container
+          class=".col-sm-12 .col-md-6 .offset-md-3"
+          style={{
+            backgroundColor: "#f2f2f2",
+            height: "100%",
+            padding: "20px",
+            borderRadius: "15px"
+          }}
         >
-          ADD
-        </Button>
-      </div>
+          <Form>
+            <div>
+              <FormGroup>
+                <Label for="skills">Title</Label>
+                <Input
+                  type="text"
+                  name="text"
+                  id="title"
+                  placeholder="Title"
+                  onChange={e => this.setState({ title: e.target.value })}
+                />
+              </FormGroup>
 
+              <FormGroup>
+                <Label for="skills">Skills</Label>
+                <Input
+                  type="text"
+                  name="text"
+                  id="skills"
+                  placeholder="List of skills"
+                  onChange={e => this.setState({ skills: e.target.value })}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <Label for="description">Description</Label>
+                <Input
+                  type="textarea"
+                  name="text"
+                  id="description"
+                  placeholder="Enter a description of the project"
+                  onChange={e => this.setState({ description: e.target.value })}
+                />
+              </FormGroup>
+
+              <Button
+                style={{ float: "right", backgroundColor: "#069BEE" }}
+                onClick={() =>
+                  this.putDataToDB(
+                    this.state.description,
+                    this.state.title,
+                    this.state.skills
+                  )
+                }
+                href="/viewpost/"
+              >
+                Submit
+              </Button>
+            </div>
+          </Form>
+        </Container>
+      </div>
       // <div style={{ padding: "10px" }}>
       //   <input
       //     type="text"

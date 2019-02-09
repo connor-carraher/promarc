@@ -45,6 +45,8 @@ class PostCard extends Component {
                   <span style={{ color: "gray" }}> id: </span> {dat._id} <br />
                   <span style={{ color: "gray" }}> Title: </span>{" "}
                   <a href={"/post/" + dat._id}>{dat.title}</a> <br />
+                  <span style={{ color: "gray" }}> Skills: </span>
+                  <br /> {dat.skills} <br />
                   <span style={{ color: "gray" }}> Description: </span>
                   <br /> {dat.description} <br />
                   <hr />
