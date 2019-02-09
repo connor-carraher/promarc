@@ -37,6 +37,7 @@ passport.use(
         "307499592437-dln10svivbmo837h0vs0n7jp21rtrd9m.apps.googleusercontent.com",
       clientSecret: "5IMMEpqFev9TG8NF6xMrtZeR",
       callbackURL: "http://localhost:3000/callback"
+      // callbackURL: "http://localhost:3001/api/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       User.findOrCreate({ googleId: profile.id }, function(err, user) {
@@ -70,7 +71,7 @@ app.use(logger("dev"));
 //   request.  The first step in Google authentication will involve
 //   redirecting the user to google.com.  After authorization, Google
 //   will redirect the user back to this application at /auth/google/callback
-app.get(
+router.get(
   "/auth/google",
   passport.authenticate("google", {
     scope: ["https://www.googleapis.com/auth/plus.login"]

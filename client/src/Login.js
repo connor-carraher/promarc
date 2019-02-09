@@ -12,7 +12,7 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <a href="/auth/google">Sign In with Google</a>
+        <a href="http://localhost:3001/api/auth/google">Sign In with Google</a>
       </div>
     );
   }
