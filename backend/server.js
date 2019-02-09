@@ -60,8 +60,6 @@ db.once("open", () => console.log("connected to the database"));
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// (optional) only made for logging and
-// bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
@@ -93,6 +91,7 @@ app.get(
 
 // this is our get method
 // this method fetches all available data in our database
+
 router.get("/posts", (req, res) => {
   Data.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
@@ -100,8 +99,6 @@ router.get("/posts", (req, res) => {
   });
 });
 
-// this is our get method
-// this method fetches data in our database based on an id
 router.get("/post/:id", (req, res) => {
   const { id } = req.params;
   Data.findById(id, (err, data) => {
@@ -110,8 +107,6 @@ router.get("/post/:id", (req, res) => {
   });
 });
 
-// this is our update method
-// this method overwrites existing data in our database
 router.post("/updateData", (req, res) => {
   const { id, update } = req.body;
   Data.findOneAndUpdate(id, update, err => {
@@ -120,8 +115,6 @@ router.post("/updateData", (req, res) => {
   });
 });
 
-// this is our delete method
-// this method removes existing data in our database
 router.delete("/deleteData", (req, res) => {
   const { id } = req.body;
   Data.findOneAndDelete(id, err => {
@@ -130,14 +123,12 @@ router.delete("/deleteData", (req, res) => {
   });
 });
 
-// this is our create method
-// this method adds new data in our database
 router.post("/putData", (req, res) => {
   let data = new Data();
 
-  const { description, title } = req.body;
+  const { description, title, skills } = req.body;
 
-  if (!description || !title) {
+  if (!description || !title || !skills) {
     return res.json({
       success: false,
       error: "INVALID INPUTS"
@@ -145,11 +136,33 @@ router.post("/putData", (req, res) => {
   }
   data.title = title;
   data.description = description;
+  data.skills = skills;
   data.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
 });
+
+/*
+ *
+ *
+ *   User Endpoints
+ *
+ */
+
+/*
+ *
+ *
+ *   Message Endpoints
+ *
+ */
+
+/*
+ *
+ *
+ *   Conversation Endpoints
+ *
+ */
 
 // append /api for our http requests
 app.use("/api", router);

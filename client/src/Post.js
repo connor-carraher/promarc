@@ -41,6 +41,8 @@ class Post extends Component {
           <React.Fragment>
             <span style={{ color: "gray" }}> id: </span> {data._id} <br />
             <span style={{ color: "gray" }}> Title: </span> {data.title} <br />
+            <span style={{ color: "gray" }}> Skills: </span> {data.skills}{" "}
+            <br />
             <span style={{ color: "gray" }}> Description: </span>
             <br /> {data.description} <br />
             <hr />
