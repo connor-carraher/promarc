@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
-const Data = require("./data");
+const { Post, User, Converstation, Message } = require("./data");
 
 const API_PORT = 3001;
 const app = express();
@@ -93,7 +93,7 @@ app.get(
 // this method fetches all available data in our database
 
 router.get("/posts", (req, res) => {
-  Data.find((err, data) => {
+  Post.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
@@ -101,7 +101,7 @@ router.get("/posts", (req, res) => {
 
 router.get("/post/:id", (req, res) => {
   const { id } = req.params;
-  Data.findById(id, (err, data) => {
+  Post.findById(id, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
@@ -109,7 +109,7 @@ router.get("/post/:id", (req, res) => {
 
 router.post("/updateData", (req, res) => {
   const { id, update } = req.body;
-  Data.findOneAndUpdate(id, update, err => {
+  Post.findOneAndUpdate(id, update, err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
@@ -117,14 +117,14 @@ router.post("/updateData", (req, res) => {
 
 router.delete("/deleteData", (req, res) => {
   const { id } = req.body;
-  Data.findOneAndDelete(id, err => {
+  Post.findOneAndDelete(id, err => {
     if (err) return res.send(err);
     return res.json({ success: true });
   });
 });
 
 router.post("/putData", (req, res) => {
-  let data = new Data();
+  let data = new Post();
 
   const { description, title, skills } = req.body;
 
@@ -149,6 +149,38 @@ router.post("/putData", (req, res) => {
  *   User Endpoints
  *
  */
+router.get("/users", (req, res) => {
+  User.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get("/user/:id", (req, res) => {
+  const { id } = req.params;
+  User.findById(id, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.post("/putUser", (req, res) => {
+  let data = new User();
+  const { username } = req.body;
+  data.username = username;
+  data.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.post("/updateUser", (req, res) => {
+  const { id, update } = req.body;
+  User.findOneAndUpdate(id, update, err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
 
 /*
  *
