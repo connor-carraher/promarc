@@ -14,7 +14,7 @@ const postSchema = new Schema(
 );
 
 const userSchema = new Schema({
-  username: String,
+  username: { type: String, required: true },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
   conversations: [{ type: Schema.Types.ObjectId, ref: "Conversation" }]
 });

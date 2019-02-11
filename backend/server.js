@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
-const { Post, User, Converstation, Message } = require("./data");
+const { Post, User, Conversation, Message } = require("./data");
 
 const API_PORT = 3001;
 const app = express();
@@ -16,7 +16,7 @@ var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
 //const cookieSession = require("cookie-session");
 
-// cookieSession config
+//cookieSession config
 // app.use(
 //   cookieSession({
 //     maxAge: 24 * 60 * 60 * 1000 // One day in milliseconds
@@ -36,13 +36,36 @@ passport.use(
       clientID:
         "307499592437-dln10svivbmo837h0vs0n7jp21rtrd9m.apps.googleusercontent.com",
       clientSecret: "5IMMEpqFev9TG8NF6xMrtZeR",
-      callbackURL: "http://localhost:3000/callback"
-      // callbackURL: "http://localhost:3001/api/auth/google/callback"
+      callbackURL: "http://localhost:3001/api/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-      User.findOrCreate({ googleId: profile.id }, function(err, user) {
-        return done(err, user);
-      });
+      if (profile._json["domain"] != "scu.edu") {
+        return done(new Error("Invalid host domain"));
+      }
+
+      const username = profile.emails[0]["value"];
+
+      User.findOne(
+        {
+          username: username
+        },
+        function(err, user) {
+          if (err) {
+            return done(err);
+          }
+          if (!user) {
+            user = new User({
+              username: username
+            });
+            user.save(function(err) {
+              if (err) console.log(err);
+              return done(err, user);
+            });
+          } else {
+            return done(err, user);
+          }
+        }
+      );
     }
   )
 );
@@ -72,7 +95,7 @@ app.use(logger("dev"));
 router.get(
   "/auth/google",
   passport.authenticate("google", {
-    scope: ["https://www.googleapis.com/auth/plus.login"]
+    scope: ["email"]
   })
 );
 
@@ -81,13 +104,23 @@ router.get(
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get(
+router.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", {
+    failureRedirect: "http://localhost:3000/login"
+  }),
   function(req, res) {
-    res.redirect("/");
+    res.redirect("http://localhost:3000/");
   }
 );
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 // this is our get method
 // this method fetches all available data in our database
