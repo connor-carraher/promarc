@@ -14,14 +14,15 @@ const dbRoute = "mongodb://promarc:password1@ds045614.mlab.com:45614/promarc";
 var passport = require("passport");
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
-//const cookieSession = require("cookie-session");
+const cookieSession = require("cookie-session");
 
 //cookieSession config
-// app.use(
-//   cookieSession({
-//     maxAge: 24 * 60 * 60 * 1000 // One day in milliseconds
-//   })
-// );
+app.use(
+  cookieSession({
+    keys: ["thiskeyisusedforencryption"],
+    maxAge: 24 * 60 * 60 * 1000 // One day in milliseconds
+  })
+);
 
 app.use(passport.initialize()); // Used to initialize passport
 app.use(passport.session()); // Used to persist login sessions
@@ -110,16 +111,19 @@ router.get(
     failureRedirect: "http://localhost:3000/login"
   }),
   function(req, res) {
+    //res.send(req.user);
     res.redirect("http://localhost:3000/");
   }
 );
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
+passport.deserializeUser(function(id, done) {
+  User.findById(id).then(user => {
+    done(null, user);
+  });
 });
 
 // this is our get method
@@ -148,8 +152,14 @@ router.post("/updateData", (req, res) => {
   });
 });
 
-router.delete("/deleteData", (req, res) => {
-  const { id } = req.body;
+router.delete("/post/delete/:id", (req, res) => {
+  const { id } = req.params.id;
+
+  var query = { username: req.user.username };
+  var index = req.user.posts.indexOf(req.params.id);
+  req.user.posts.splice(index, 1);
+  User.update(query, req.user).exec();
+
   Post.findOneAndDelete(id, err => {
     if (err) return res.send(err);
     return res.json({ success: true });
@@ -167,9 +177,15 @@ router.post("/putData", (req, res) => {
       error: "INVALID INPUTS"
     });
   }
+
   data.title = title;
   data.description = description;
   data.skills = skills;
+  data.createdBy = req.user;
+
+  var query = { username: req.user.username };
+  User.update(query, { $push: { posts: data } }).exec();
+
   data.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });

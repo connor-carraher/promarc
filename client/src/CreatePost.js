@@ -38,20 +38,6 @@ class CreatePost extends Component {
     });
   };
 
-  // deleteFromDB = idTodelete => {
-  //   let objIdToDelete = null;
-  //   this.state.data.forEach(dat => {
-  //     if (dat.id == idTodelete) {
-  //       objIdToDelete = dat._id;
-  //     }
-  //   });
-  //
-  //   axios.delete("/api/deleteData", {
-  //     data: {
-  //       id: objIdToDelete
-  //     }
-  //   });
-  // };
   //
   // updateDB = (idToUpdate, updateToApply) => {
   //   let objIdToUpdate = null;

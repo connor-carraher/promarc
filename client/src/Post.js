@@ -7,28 +7,27 @@ import {
   withRouter
 } from "react-router-dom";
 import axios from "axios";
+import { Button } from "reactstrap";
 
 class Post extends Component {
   state = {
     data: [],
-    id: null
+    id: ""
   };
 
   componentDidMount() {
+    this.setState({ id: this.props.match.params.id });
     this.getPostFromDb();
-  }
-
-  componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-    }
   }
 
   getPostFromDb = () => {
     fetch(`/api/post/${this.props.match.params.id}`)
       .then(data => data.json())
       .then(res => this.setState({ data: res.data }));
+  };
+
+  deletePostFromDb = id => {
+    axios.delete("/api/post/delete/" + id);
   };
 
   render() {
@@ -46,6 +45,13 @@ class Post extends Component {
             <span style={{ color: "gray" }}> Description: </span>
             <br /> {data.description} <br />
             <hr />
+            <Button
+              style={{ float: "right", backgroundColor: "#069BEE" }}
+              onClick={() => this.deletePostFromDb(data._id)}
+              href="/viewpost/"
+            >
+              Delete
+            </Button>
           </React.Fragment>
         )}
       </div>
