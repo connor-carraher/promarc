@@ -153,8 +153,14 @@ router.post("/updateData", (req, res) => {
   });
 });
 
-router.delete("/deleteData", (req, res) => {
-  const { id } = req.body;
+router.delete("/post/delete/:id", (req, res) => {
+  const { id } = req.params.id;
+
+  var query = { username: req.user.username };
+  var index = req.user.posts.indexOf(req.params.id);
+  req.user.posts.splice(index, 1);
+  User.update(query, req.user).exec();
+
   Post.findOneAndDelete(id, err => {
     if (err) return res.send(err);
     return res.json({ success: true });
@@ -172,9 +178,15 @@ router.post("/putData", (req, res) => {
       error: "INVALID INPUTS"
     });
   }
+
   data.title = title;
   data.description = description;
   data.skills = skills;
+  data.createdBy = req.user;
+
+  var query = { username: req.user.username };
+  User.update(query, { $push: { posts: data } }).exec();
+
   data.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
