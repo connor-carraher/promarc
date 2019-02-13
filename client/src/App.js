@@ -7,7 +7,6 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
-import Test from "./Test";
 import CreatePost from "./CreatePost";
 import PostCard from "./PostCard";
 import Post from "./Post";
@@ -39,11 +38,10 @@ class App extends Component {
             <React.Fragment>
               <Navbar />
               <Switch>
-                <Route path="/" />
-                <Route path="/test" component={Test} />
                 <Route path="/createpost" component={CreatePost} />
                 <Route path="/viewpost" component={PostCard} />
                 <Route path="/post/:id" component={Post} />
+                <Route path="/" />
               </Switch>
             </React.Fragment>
           ) : (

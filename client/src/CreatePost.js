@@ -7,7 +7,6 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
-import Test from "./Test";
 import axios from "axios";
 import PostCard from "./PostCard";
 import {
