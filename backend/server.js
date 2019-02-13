@@ -14,14 +14,16 @@ const dbRoute = "mongodb://promarc:password1@ds045614.mlab.com:45614/promarc";
 var passport = require("passport");
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
-//const cookieSession = require("cookie-session");
+const cookieSession = require("cookie-session");
 
 //cookieSession config
-// app.use(
-//   cookieSession({
-//     maxAge: 24 * 60 * 60 * 1000 // One day in milliseconds
-//   })
-// );
+app.use(
+  cookieSession({
+    keys: ["thiskeyisusedforencryption"],
+    maxAge: 24 * 60 * 60 * 1000, // One day in milliseconds
+    httpOnly: false
+  })
+);
 
 app.use(passport.initialize()); // Used to initialize passport
 app.use(passport.session()); // Used to persist login sessions
@@ -110,16 +112,19 @@ router.get(
     failureRedirect: "http://localhost:3000/login"
   }),
   function(req, res) {
+    //res.send(req.user);
     res.redirect("http://localhost:3000/");
   }
 );
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
+passport.deserializeUser(function(id, done) {
+  User.findById(id).then(user => {
+    done(null, user);
+  });
 });
 
 // this is our get method
