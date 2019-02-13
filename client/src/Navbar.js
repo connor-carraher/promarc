@@ -1,25 +1,11 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-  withRouter
-} from "react-router-dom";
-import axios from "axios";
 import Cookies from "js-cookie";
 import {
-  Collapse,
   Navbar as ReactstrapNavbar,
-  NavbarToggler,
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  NavLink
 } from "reactstrap";
 
 class Navbar extends Component {

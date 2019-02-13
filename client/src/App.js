@@ -1,17 +1,9 @@
 // /client/App.js
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreatePost from "./CreatePost";
 import PostCard from "./PostCard";
 import Post from "./Post";
-import axios from "axios";
-import { Button } from "reactstrap";
 import Navbar from "./Navbar";
 import Login from "./Login";
 import Cookies from "js-cookie";
@@ -23,10 +15,6 @@ class App extends Component {
   };
 
   render() {
-    const authprops = {
-      loggedIn: this.state.loggedIn
-    };
-
     console.log(document.cookie);
     if (Cookies.get("session") != null) {
       this.state.loggedIn = true;

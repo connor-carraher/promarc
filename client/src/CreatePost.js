@@ -1,29 +1,10 @@
 // /client/App.js
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-  withRouter
-} from "react-router-dom";
 import axios from "axios";
-import PostCard from "./PostCard";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText
-} from "reactstrap";
+import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 class CreatePost extends Component {
   state = {
-    data: [],
     description: null,
     title: null,
     skills: null
@@ -53,7 +34,6 @@ class CreatePost extends Component {
   // };
 
   render() {
-    const { data } = this.state;
     return (
       <div style={{ height: "80%", paddingTop: "20px" }}>
         <Container
