@@ -127,9 +127,14 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-// this is our get method
-// this method fetches all available data in our database
+/*
+ *
+ *
+ *   Post Endpoints
+ *
+ */
 
+//Get All Posts
 router.get("/posts", (req, res) => {
   Post.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
@@ -137,6 +142,7 @@ router.get("/posts", (req, res) => {
   });
 });
 
+//Get Post by ID
 router.get("/post/:id", (req, res) => {
   const { id } = req.params;
   Post.findById(id, (err, data) => {
@@ -153,6 +159,7 @@ router.post("/updateData", (req, res) => {
   });
 });
 
+//Post Deletion
 router.delete("/post/delete/:id", (req, res) => {
   const { id } = req.params.id;
 
@@ -167,6 +174,7 @@ router.delete("/post/delete/:id", (req, res) => {
   });
 });
 
+//Post Creation
 router.post("/putData", (req, res) => {
   let data = new Post();
 
@@ -199,6 +207,8 @@ router.post("/putData", (req, res) => {
  *   User Endpoints
  *
  */
+
+//Get all users
 router.get("/users", (req, res) => {
   User.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
@@ -206,6 +216,7 @@ router.get("/users", (req, res) => {
   });
 });
 
+//Get user by ID
 router.get("/user/:id", (req, res) => {
   const { id } = req.params;
   User.findById(id, (err, data) => {
@@ -214,6 +225,7 @@ router.get("/user/:id", (req, res) => {
   });
 });
 
+//User Creation
 router.post("/putUser", (req, res) => {
   let data = new User();
   const { username } = req.body;
@@ -224,6 +236,7 @@ router.post("/putUser", (req, res) => {
   });
 });
 
+//Update User
 router.post("/updateUser", (req, res) => {
   const { id, update } = req.body;
   User.findOneAndUpdate(id, update, err => {
