@@ -7,6 +7,7 @@ import {
   withRouter
 } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 import {
   Collapse,
   Navbar as ReactstrapNavbar,
@@ -22,6 +23,10 @@ import {
 } from "reactstrap";
 
 class Navbar extends Component {
+  logout = () => {
+    Cookies.remove("session");
+    Cookies.remove("session.sig");
+  };
   render() {
     return (
       <div>
@@ -49,7 +54,11 @@ class Navbar extends Component {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/test" style={{ color: "#FFFFFF" }}>
+              <NavLink
+                href="/"
+                style={{ color: "#FFFFFF" }}
+                onClick={() => this.logout()}
+              >
                 Logout
               </NavLink>
             </NavItem>
