@@ -1,0 +1,1 @@
+mongorestore -h ds045614.mlab.com:45614 -d promarc -u promarc -p password1 /Users/Connor-Mac/Desktop/source/promarc/backup/backup/promarc
