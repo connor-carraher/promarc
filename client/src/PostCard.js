@@ -29,22 +29,63 @@ class PostCard extends Component {
     const { data } = this.state;
     return (
       <div>
-        <ul>
-          {data.length <= 0
-            ? "NO DB ENTRIES YET"
-            : data.map(dat => (
-                <li style={{ padding: "10px" }} key={dat._id}>
-                  <span style={{ color: "gray" }}> id: </span> {dat._id} <br />
-                  <span style={{ color: "gray" }}> Title: </span>{" "}
-                  <a href={"/post/" + dat._id}>{dat.title}</a> <br />
-                  <span style={{ color: "gray" }}> Skills: </span>
-                  <br /> {dat.skills} <br />
-                  <span style={{ color: "gray" }}> Description: </span>
-                  <br /> {dat.description} <br />
-                  <hr />
-                </li>
-              ))}
-        </ul>
+        <div
+          style={{
+            borderRight: "2px solid lightgray",
+            float: "left",
+            width: "75%"
+          }}
+        >
+          <ul>
+            {data.length <= 0
+              ? "NO DB ENTRIES YET"
+              : data.map(dat => (
+                  <li
+                    style={{
+                      listStyleType: "none",
+                      margin: "10px",
+                      paddingTop: "5px"
+                    }}
+                    key={dat._id}
+                  >
+                    {/*<span style={{ color: "gray" }}> id: </span> {dat._id} <br />
+                  <span style={{ color: "gray" }}> Title: </span>{" "}*/}
+                    <a style={{ fontSize: "24pt" }} href={"/post/" + dat._id}>
+                      {dat.title}
+                    </a>{" "}
+                    <br />
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "16pt",
+                        color: "black"
+                      }}
+                    >
+                      {" "}
+                      Skills:{" "}
+                    </span>{" "}
+                    <span style={{ fontSize: "16pt" }}>{dat.skills}</span>{" "}
+                    <br />
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "12pt",
+                        color: "gray"
+                      }}
+                    >
+                      {" "}
+                      Description:{" "}
+                    </span>{" "}
+                    <span style={{ fontSize: "12pt" }}>
+                      {dat.description}
+                    </span>{" "}
+                    <br />
+                    <hr />
+                  </li>
+                ))}
+          </ul>
+        </div>
+        <div style={{ float: "left", width: "25%" }} />
       </div>
     );
   }
