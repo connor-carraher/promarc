@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import './createpost.css'
 
 class CreatePost extends Component {
   state = {
@@ -42,46 +43,47 @@ class CreatePost extends Component {
             backgroundColor: "#f2f2f2",
             height: "100%",
             padding: "20px",
-            borderRadius: "15px"
+            borderRadius: "15px",
+            position: "relative"
           }}
         >
           <Form>
             <div>
               <FormGroup>
-                <Label for="skills">Title</Label>
+                <Label className="input-title" for="skills">Title</Label>
                 <Input
                   type="text"
                   name="text"
                   id="title"
-                  placeholder="Title"
+                  placeholder="Title..."
                   onChange={e => this.setState({ title: e.target.value })}
                 />
               </FormGroup>
 
               <FormGroup>
-                <Label for="skills">Skills</Label>
+                <Label className="input-title" for="skills">Skills</Label>
                 <Input
                   type="text"
                   name="text"
                   id="skills"
-                  placeholder="List of skills"
+                  placeholder="List of skills..."
                   onChange={e => this.setState({ skills: e.target.value })}
                 />
               </FormGroup>
 
               <FormGroup>
-                <Label for="description">Description</Label>
+                <Label className="input-title" for="description">Description</Label>
                 <Input
                   type="textarea"
                   name="text"
                   id="description"
-                  placeholder="Enter a description of the project"
+                  placeholder="Enter a description of the project..."
                   onChange={e => this.setState({ description: e.target.value })}
                 />
               </FormGroup>
 
               <Button
-                style={{ float: "right", backgroundColor: "#069BEE" }}
+                style={{ width: "15%", position: "absolute", left: "85%", bottom: "-18%", backgroundColor: "#069BEE" }}
                 onClick={() =>
                   this.putDataToDB(
                     this.state.description,
