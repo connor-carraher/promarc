@@ -33,7 +33,6 @@ class MyPosts extends Component {
     for (i = 0; i < data.length; i++) {
       if (data[i].createdBy != this.state.userId) {
         data.splice(i, 1);
-        --i;
       }
     }
     return (
