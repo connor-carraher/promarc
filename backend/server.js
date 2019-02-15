@@ -151,12 +151,22 @@ router.get("/post/:id", (req, res) => {
   });
 });
 
-router.post("/updateData", (req, res) => {
+//Post Editing
+router.post("/post/edit/:id", (req, res) => {
   const { id, update } = req.body;
-  Post.findOneAndUpdate(id, update, err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
+
+  var query = { _id: id };
+  console.log("update: " + JSON.stringify(update));
+  console.log("id: " + id);
+  Post.updateOne(query, {
+    $set: {
+      title: update.title,
+      skills: update.skills,
+      description: update.description
+    }
+  }).exec();
+
+  // Post.findOneAndUpdate(query, update).exec();
 });
 
 //Post Deletion
@@ -243,6 +253,12 @@ router.post("/updateUser", (req, res) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
+});
+
+//Get logged in user
+router.get("/getCurrUser", (req, res) => {
+  console.log(req.user._id);
+  return res.json({ success: true, userId: req.user._id });
 });
 
 /*

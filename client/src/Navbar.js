@@ -35,11 +35,6 @@ class Navbar extends Component {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/viewpost/" style={{ color: "#FFFFFF" }}>
-                View Post
-              </NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink
                 href="/"
                 style={{ color: "#FFFFFF" }}
