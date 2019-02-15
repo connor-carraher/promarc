@@ -68,7 +68,7 @@ class Post extends Component {
                   <Button
                     style={{ float: "right", backgroundColor: "#069BEE" }}
                     onClick={() => this.deletePostFromDb(data._id)}
-                    href="/viewpost/"
+                    href="/"
                   >
                     Delete
                   </Button>
