@@ -156,8 +156,6 @@ router.post("/post/edit/:id", (req, res) => {
   const { id, update } = req.body;
 
   var query = { _id: id };
-  console.log("update: " + JSON.stringify(update));
-  console.log("id: " + id);
   Post.updateOne(query, {
     $set: {
       title: update.title,
@@ -173,15 +171,12 @@ router.post("/post/edit/:id", (req, res) => {
 router.delete("/post/delete/:id", (req, res) => {
   const { id } = req.params.id;
 
-  var query = { username: req.user.username };
+  var query = { id: id };
   var index = req.user.posts.indexOf(req.params.id);
   req.user.posts.splice(index, 1);
   User.update(query, req.user).exec();
 
-  Post.findOneAndDelete(id, err => {
-    if (err) return res.send(err);
-    return res.json({ success: true });
-  });
+  Post.findByIdAndDelete(req.params.id).exec();
 });
 
 //Post Creation
@@ -257,7 +252,6 @@ router.post("/updateUser", (req, res) => {
 
 //Get logged in user
 router.get("/getCurrUser", (req, res) => {
-  console.log(req.user._id);
   return res.json({ success: true, userId: req.user._id });
 });
 
