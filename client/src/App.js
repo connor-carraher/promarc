@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import Login from "./Login";
 import Cookies from "js-cookie";
 import EditPost from "./EditPost";
+import MyPosts from "./MyPosts";
 
 class App extends Component {
   state = {
@@ -28,6 +29,7 @@ class App extends Component {
               <Navbar />
               <Switch>
                 <Route path="/createpost" component={CreatePost} />
+                <Route path="/myposts" component={MyPosts} />
                 <Route path="/post/edit/:id" component={EditPost} />
                 <Route path="/post/:id" component={Post} />
                 <Route path="/" component={PostCard} />
