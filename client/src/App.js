@@ -7,6 +7,7 @@ import Post from "./Post";
 import Navbar from "./Navbar";
 import Login from "./Login";
 import Cookies from "js-cookie";
+import EditPost from "./EditPost";
 
 class App extends Component {
   state = {
@@ -27,9 +28,9 @@ class App extends Component {
               <Navbar />
               <Switch>
                 <Route path="/createpost" component={CreatePost} />
-                <Route path="/viewpost" component={PostCard} />
+                <Route path="/post/edit/:id" component={EditPost} />
                 <Route path="/post/:id" component={Post} />
-                <Route path="/" />
+                <Route path="/" component={PostCard} />
               </Switch>
             </React.Fragment>
           ) : (

@@ -4,41 +4,43 @@ import axios from "axios";
 import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import "./createpost.css";
 
-class CreatePost extends Component {
+class EditPost extends Component {
+  componentDidMount() {
+    this.setState({ id: this.props.match.params.id });
+    this.getPostFromDb();
+  }
+
   state = {
+    id: null,
     description: null,
     title: null,
     skills: null
   };
 
-  putDataToDB = (description, title, skills) => {
-    axios.post("/api/putData", {
-      description: description,
-      title: title,
-      skills: skills
-    });
+  getPostFromDb = () => {
+    fetch(`/api/post/${this.props.match.params.id}`)
+      .then(data => data.json())
+      .then(res =>
+        this.setState({
+          description: res.data.description,
+          title: res.data.title,
+          skills: res.data.skills
+        })
+      );
   };
 
-  //
-  // updateDB = (idToUpdate, updateToApply) => {
-  //   let objIdToUpdate = null;
-  //   this.state.data.forEach(dat => {
-  //     if (dat.id == idToUpdate) {
-  //       objIdToUpdate = dat._id;
-  //     }
-  //   });
-  //
-  //   axios.post("/api/updateData", {
-  //     id: objIdToUpdate,
-  //     update: { message: updateToApply }
-  //   });
-  // };
+  updatePost = (description, title, skills) => {
+    axios.post("/api/post/edit/" + this.state.id, {
+      id: this.state.id,
+      update: { description: description, title: title, skills: skills }
+    });
+  };
 
   render() {
     return (
       <div style={{ height: "80%", paddingTop: "20px" }}>
         <Container
-          class=".col-sm-12 .col-md-6 .offset-md-3"
+          className=".col-sm-12 .col-md-6 .offset-md-3"
           style={{
             backgroundColor: "#f2f2f2",
             height: "100%",
@@ -57,7 +59,7 @@ class CreatePost extends Component {
                   type="text"
                   name="text"
                   id="title"
-                  placeholder="Title..."
+                  value={this.state.title}
                   onChange={e => this.setState({ title: e.target.value })}
                 />
               </FormGroup>
@@ -70,7 +72,7 @@ class CreatePost extends Component {
                   type="text"
                   name="text"
                   id="skills"
-                  placeholder="List of skills..."
+                  value={this.state.skills}
                   onChange={e => this.setState({ skills: e.target.value })}
                 />
               </FormGroup>
@@ -83,7 +85,7 @@ class CreatePost extends Component {
                   type="textarea"
                   name="text"
                   id="description"
-                  placeholder="Enter a description of the project..."
+                  value={this.state.description}
                   onChange={e => this.setState({ description: e.target.value })}
                 />
               </FormGroup>
@@ -97,7 +99,7 @@ class CreatePost extends Component {
                   backgroundColor: "#069BEE"
                 }}
                 onClick={() =>
-                  this.putDataToDB(
+                  this.updatePost(
                     this.state.description,
                     this.state.title,
                     this.state.skills
@@ -111,40 +113,8 @@ class CreatePost extends Component {
           </Form>
         </Container>
       </div>
-      // <div style={{ padding: "10px" }}>
-      //   <input
-      //     type="text"
-      //     style={{ width: "200px" }}
-      //     onChange={e => this.setState({ idToDelete: e.target.value })}
-      //     placeholder="put id of item to delete here"
-      //   />
-      //   <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
-      //     DELETE
-      //   </button>
-      // </div>
-      // <div style={{ padding: "10px" }}>
-      //   <input
-      //     type="text"
-      //     style={{ width: "200px" }}
-      //     onChange={e => this.setState({ idToUpdate: e.target.value })}
-      //     placeholder="id of item to update here"
-      //   />
-      //   <input
-      //     type="text"
-      //     style={{ width: "200px" }}
-      //     onChange={e => this.setState({ updateToApply: e.target.value })}
-      //     placeholder="put new value of the item here"
-      //   />
-      //   <button
-      //     onClick={() =>
-      //       this.updateDB(this.state.idToUpdate, this.state.updateToApply)
-      //     }
-      //   >
-      //     UPDATE
-      //   </button>
-      // </div>
     );
   }
 }
 
-export default CreatePost;
+export default EditPost;
