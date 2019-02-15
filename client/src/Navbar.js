@@ -30,6 +30,11 @@ class Navbar extends Component {
           </NavbarBrand>
           <Nav className="ml-auto" navbar>
             <NavItem>
+              <NavLink href="/myposts/" style={{ color: "#FFFFFF" }}>
+                My Posts
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink href="/createpost/" style={{ color: "#FFFFFF" }}>
                 Create Post
               </NavLink>
