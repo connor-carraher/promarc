@@ -29,10 +29,18 @@ class MyPosts extends Component {
 
   render() {
     const { data } = this.state;
-    var i;
-    for (i = 0; i < data.length; i++) {
+    var i = 0;
+    // for (i = 0; i < data.length; i++) {
+    //   if (data[i].createdBy != this.state.userId) {
+    //     data.splice(i, 1);
+    //   }
+    // }
+
+    while (i < data.length) {
       if (data[i].createdBy != this.state.userId) {
         data.splice(i, 1);
+      } else {
+        i++;
       }
     }
     return (
