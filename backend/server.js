@@ -255,6 +255,15 @@ router.get("/getCurrUser", (req, res) => {
   return res.json({ success: true, userId: req.user._id });
 });
 
+// router.get("/getCurrUser/conversations", (req, res) => {
+//   var id = req.user._id;
+//   console.log(id);
+//   User.findById(id, (err, data) => {
+//     if (err) return res.json({ success: false, error: err });
+//     return res.json({ success: true, data: data });
+//   });
+// });
+
 /*
  *
  *
@@ -268,6 +277,45 @@ router.get("/getCurrUser", (req, res) => {
  *   Conversation Endpoints
  *
  */
+
+//Create conversation
+router.post("/conversation/create", (req, res) => {
+  let data = new Conversation();
+
+  const { receiver, sender } = req.body;
+
+  data.participants.push(receiver);
+  data.participants.push(sender);
+
+  var query = { _id: sender };
+  User.update(query, { $push: { conversations: data } }).exec();
+
+  var query = { _id: receiver };
+  User.update(query, { $push: { conversations: data } }).exec();
+
+  data.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+//Get conversation by conversation id
+router.get("/conversation/:id", (req, res) => {
+  var query = { _id: req.params.id };
+  Conversation.findOne(query, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+//Get all conversations by user id
+router.get("/conversation/user", (req, res) => {
+  var query = { _id: req.user._id };
+  User.find(query, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
 
 // append /api for our http requests
 app.use("/api", router);

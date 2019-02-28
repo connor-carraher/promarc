@@ -5,7 +5,11 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from "reactstrap";
 
 class Navbar extends Component {
@@ -29,11 +33,25 @@ class Navbar extends Component {
             Promarc
           </NavbarBrand>
           <Nav className="ml-auto" navbar>
-            <NavItem>
-              <NavLink href="/myposts/" style={{ color: "#FFFFFF" }}>
-                My Posts
-              </NavLink>
-            </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret style={{ color: "#FFFFFF" }}>
+                My Stuff
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                  {" "}
+                  <NavLink href="/inbox/" style={{ color: "#000000" }}>
+                    Inbox
+                  </NavLink>
+                </DropdownItem>
+                <DropdownItem>
+                  {" "}
+                  <NavLink href="/myposts/" style={{ color: "#000000" }}>
+                    My Posts
+                  </NavLink>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
             <NavItem>
               <NavLink href="/createpost/" style={{ color: "#FFFFFF" }}>
                 Create Post

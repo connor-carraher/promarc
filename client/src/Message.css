@@ -1,0 +1,53 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: lightblue;
+  font-family: "Ubuntu-Italic", "Lucida Sans", helvetica, sans;
+}
+
+/* container */
+.container {
+  padding: 5% 5%;
+}
+
+.border {
+  border: 8px solid #666;
+}
+
+.talktext {
+  padding: 0.25em;
+  text-align: left;
+  line-height: 1.5em;
+}
+
+.mine {
+  color: white;
+  background-color: #069bee;
+}
+
+.yours {
+  color: black;
+  background-color: #eaeaea;
+}
+
+.talktext p {
+  /* remove webkit p margins */
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+}
+
+.talk-bubble {
+  margin: 12px;
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: auto;
+}
+
+.round {
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+}

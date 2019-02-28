@@ -31,6 +31,13 @@ class Post extends Component {
     axios.delete("/api/post/delete/" + id);
   };
 
+  createConversation = () => {
+    axios.post("/api/conversation/create/", {
+      receiver: this.state.data["createdBy"],
+      sender: this.state.userId
+    });
+  };
+
   render() {
     const { data } = this.state;
     return (
@@ -74,7 +81,13 @@ class Post extends Component {
                   </Button>
                 </React.Fragment>
               ) : (
-                <React.Fragment> </React.Fragment>
+                <Button
+                  style={{ float: "right", backgroundColor: "#069BEE" }}
+                  onClick={() => this.createConversation()}
+                  href="/"
+                >
+                  Contact
+                </Button>
               )}
             </div>
           </React.Fragment>
