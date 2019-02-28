@@ -170,11 +170,16 @@ router.post("/post/edit/:id", (req, res) => {
 //Post Deletion
 router.delete("/post/delete/:id", (req, res) => {
   const { id } = req.params.id;
+  var createdBy;
 
-  var query = { id: id };
-  var index = req.user.posts.indexOf(req.params.id);
-  req.user.posts.splice(index, 1);
-  User.update(query, req.user).exec();
+  Post.findById(req.params.id).exec(function(error, result) {
+    createdBy = result.createdBy;
+    User.findById(createdBy).exec(function(error, result2) {
+      var index = result2.posts.indexOf(id);
+      result2.posts.splice(index, 1);
+      User.update({ _id: createdBy }, result2).exec();
+    });
+  });
 
   Post.findByIdAndDelete(req.params.id).exec();
 });
@@ -252,7 +257,8 @@ router.post("/updateUser", (req, res) => {
 
 //Get logged in user
 router.get("/getCurrUser", (req, res) => {
-  return res.json({ success: true, userId: req.user._id });
+  console.log(req.user);
+  return res.json({ success: true, user: req.user });
 });
 
 /*
