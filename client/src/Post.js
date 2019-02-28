@@ -6,7 +6,7 @@ class Post extends Component {
   state = {
     data: [],
     id: "",
-    userId: ""
+    user: []
   };
 
   componentDidMount() {
@@ -18,7 +18,7 @@ class Post extends Component {
   getCurrUser = () => {
     axios
       .get("/api/getCurrUser")
-      .then(res => this.setState({ userId: res.data.userId }));
+      .then(res => this.setState({ user: res.data.user }));
   };
 
   getPostFromDb = () => {
@@ -56,7 +56,8 @@ class Post extends Component {
               <span style={{ fontSize: "12pt" }}>{data.description}</span>{" "}
               <br />
               <hr />
-              {this.state.userId == this.state.data.createdBy ? (
+              {this.state.user._id == this.state.data.createdBy ||
+              this.state.user.isModerator ? (
                 <React.Fragment>
                   <Button
                     style={{ float: "right", backGroundColor: "#069BEE" }}

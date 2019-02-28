@@ -18,7 +18,7 @@ class MyPosts extends Component {
   getCurrUser = () => {
     axios
       .get("/api/getCurrUser")
-      .then(res => this.setState({ userId: res.data.userId }));
+      .then(res => this.setState({ userId: res.data.user._id }));
   };
 
   getDataFromDb = () => {
@@ -30,12 +30,6 @@ class MyPosts extends Component {
   render() {
     const { data } = this.state;
     var i = 0;
-    // for (i = 0; i < data.length; i++) {
-    //   if (data[i].createdBy != this.state.userId) {
-    //     data.splice(i, 1);
-    //   }
-    // }
-
     while (i < data.length) {
       if (data[i].createdBy != this.state.userId) {
         data.splice(i, 1);
