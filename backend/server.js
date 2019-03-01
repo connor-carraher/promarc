@@ -9,7 +9,7 @@ const app = express();
 const router = express.Router();
 
 // this is our MongoDB database
-const dbRoute = "mongodb://promarc:password1@ds045614.mlab.com:45614/promarc";
+const dbRoute = "mongodb://promarc:password1@ds257858.mlab.com:57858/promarc";
 
 var passport = require("passport");
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
@@ -257,7 +257,6 @@ router.post("/updateUser", (req, res) => {
 
 //Get logged in user
 router.get("/getCurrUser", (req, res) => {
-  console.log(req.user);
   return res.json({ success: true, user: req.user });
 });
 

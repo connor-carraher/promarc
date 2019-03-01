@@ -1,34 +1,30 @@
-.sign-in 
-{
-	position: fixed;
-  	top: 65%;
- 	left: 50%;
- 	transform: translate(-50%, -50%);
-  	width: 20%;
+.sign-in {
+  position: fixed;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20%;
 }
 
-.title
-{
-	position:fixed;
-	left: 50%;
-	top: 40%;
-	font-size:80pt;
-	transform: translate(-50%, -50%);
+.title {
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  font-size: 80pt;
+  transform: translate(-50%, -50%);
 }
 
-.subtitle
-{
-	position:fixed;
-	left: 50%;
-	top: 48%;
-	font-size:20pt;
-	transform: translate(-50%, -50%);
+.subtitle {
+  position: fixed;
+  left: 50%;
+  top: 52%;
+  font-size: 20pt;
+  transform: translate(-50%, -50%);
 }
 
-.copyright
-{
-	position:fixed;
-	left: 50%;
-	top: 65%;
-	transform: translate(-50%, -50%);
+.copyright {
+  position: fixed;
+  left: 50%;
+  top: 65%;
+  transform: translate(-50%, -50%);
 }
