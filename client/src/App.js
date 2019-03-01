@@ -9,6 +9,7 @@ import Login from "./Login";
 import Cookies from "js-cookie";
 import EditPost from "./EditPost";
 import MyPosts from "./MyPosts";
+import "./App.css";
 
 class App extends Component {
   state = {

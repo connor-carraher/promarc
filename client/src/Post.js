@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
+import "./post.css";
 
 class Post extends Component {
   state = {
@@ -34,52 +36,69 @@ class Post extends Component {
   render() {
     const { data } = this.state;
     return (
-      <div>
-        {!data ? (
-          "Post Does Not Exist"
-        ) : (
-          <React.Fragment>
-            <div style={{ marginLeft: "20px", paddingTop: "10px" }}>
-              {/*<span style={{ color: "gray" }}> id: </span> {data._id} <br />
-            <span style={{ color: "gray" }}> Title: </span> */}
-              <span style={{ fontSize: "24pt" }}>{data.title}</span> <br />
-              <span
-                style={{ fontWeight: "bold", fontSize: "16pt", color: "black" }}
-              >
-                {" "}
-                Skills:{" "}
-              </span>
-              <span style={{ fontSize: "16pt" }}> {data.skills} </span>
-              {/*<br />
-            <span style={{ color: "gray" }}> Description: </span>*/}
-              <br />{" "}
-              <span style={{ fontSize: "12pt" }}>{data.description}</span>{" "}
-              <br />
-              <hr />
-              {this.state.user._id == this.state.data.createdBy ||
-              this.state.user.isModerator ? (
-                <React.Fragment>
-                  <Button
-                    style={{ float: "right", backGroundColor: "#069BEE" }}
-                    href={"/post/edit/" + data._id}
-                  >
-                    {" "}
-                    Edit{" "}
-                  </Button>
-                  <Button
-                    style={{ float: "right", backgroundColor: "#069BEE" }}
-                    onClick={() => this.deletePostFromDb(data._id)}
-                    href="/"
-                  >
-                    Delete
-                  </Button>
-                </React.Fragment>
-              ) : (
-                <React.Fragment> </React.Fragment>
-              )}
-            </div>
-          </React.Fragment>
-        )}
+      <div
+        style={{
+          backgroundColor: "#DAE0E6",
+          marginTop: "5px",
+          height: "1500px"
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "#FFFFFF",
+            borderRadius: "10px",
+            padding: "5px"
+          }}
+          className="col-6 offset-md-3"
+        >
+          {!data ? (
+            "Post Does Not Exist"
+          ) : (
+            <React.Fragment>
+              <div style={{ marginLeft: "20px", paddingTop: "10px" }}>
+                <span style={{ fontSize: "24pt" }}>{data.title}</span> <br />
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "16pt",
+                    color: "black"
+                  }}
+                >
+                  {" "}
+                  Skills:{" "}
+                </span>
+                <span style={{ fontSize: "16pt" }}> {data.skills} </span>
+                <br />{" "}
+                <span style={{ fontSize: "12pt" }}>
+                  {data.description}
+                </span>{" "}
+                <br />
+                <hr />
+                {this.state.user._id == this.state.data.createdBy ||
+                this.state.user.isModerator ? (
+                  <React.Fragment>
+                    <Button
+                      style={{ float: "right", backgroundColor: "#069BEE" }}
+                      href={"/post/edit/" + data._id}
+                    >
+                      {" "}
+                      Edit{" "}
+                    </Button>
+                    <Button
+                      style={{ float: "right", backgroundColor: "#069BEE" }}
+                      onClick={() => this.deletePostFromDb(data._id)}
+                      href="/"
+                    >
+                      Delete
+                    </Button>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment> </React.Fragment>
+                )}
+              </div>
+            </React.Fragment>
+          )}
+        </div>
       </div>
     );
   }
