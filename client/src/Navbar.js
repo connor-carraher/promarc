@@ -19,8 +19,12 @@ class Navbar extends Component {
   };
   render() {
     return (
-      <div>
-        <ReactstrapNavbar style={{ backgroundColor: "#069BEE" }} expand="md">
+      <div style={{ marginBottom: "55px" }}>
+        <ReactstrapNavbar
+          fixed="top"
+          style={{ backgroundColor: "#069BEE" }}
+          expand="md"
+        >
           <NavbarBrand
             href="/"
             style={{

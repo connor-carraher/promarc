@@ -16,7 +16,8 @@ const postSchema = new Schema(
 const userSchema = new Schema({
   username: { type: String, required: true },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-  conversations: [{ type: Schema.Types.ObjectId, ref: "Conversation" }]
+  conversations: [{ type: Schema.Types.ObjectId, ref: "Conversation" }],
+  isModerator: { type: Boolean, default: false }
 });
 
 const conversationSchema = new Schema({
