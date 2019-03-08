@@ -28,9 +28,8 @@ const conversationSchema = new Schema({
 const messageSchema = new Schema(
   {
     content: String,
-    userTo: { type: Schema.Types.ObjectId, ref: "User" },
     userFrom: { type: Schema.Types.ObjectId, ref: "User" },
-    conversation: { type: Schema.Types.ObjectId, ref: "Conversation" }
+    conversation: String
   },
   { timestamps: true }
 );

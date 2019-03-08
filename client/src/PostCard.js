@@ -49,6 +49,13 @@ class PostCard extends Component {
     axios.delete("/api/post/delete/" + id);
   };
 
+  createConversation = () => {
+    axios.post("/api/conversation/create/", {
+      receiver: this.state.createdBy,
+      sender: this.state.user._id
+    });
+  };
+
   getCurrUser = () => {
     axios
       .get("/api/getCurrUser")
@@ -157,6 +164,16 @@ class PostCard extends Component {
                           ) : (
                             <React.Fragment> </React.Fragment>
                           )}
+                          <Button
+                            style={{
+                              float: "right",
+                              backgroundColor: "#069BEE"
+                            }}
+                            onClick={() => this.createConversation()}
+                            href="/"
+                          >
+                            Contact
+                          </Button>
                         </ModalFooter>
                       </Modal>
                       <br />

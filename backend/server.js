@@ -41,9 +41,9 @@ passport.use(
       callbackURL: "http://localhost:3001/api/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-      if (profile._json["domain"] != "scu.edu") {
+      /*if (profile._json["domain"] != "scu.edu") {
         return done(new Error("Invalid host domain"));
-      }
+      } */
 
       const username = profile.emails[0]["value"];
 
@@ -275,6 +275,30 @@ router.get("/getCurrUser", (req, res) => {
  *   Message Endpoints
  *
  */
+router.post("/conversation/message/update/:id", (req, res) => {
+  let data = new Message();
+  conversationId = req.params.id;
+
+  data.content = req.body.content;
+  data.userFrom = req.user._id;
+  data.conversation = conversationId;
+
+  var query = { _id: conversationId };
+  Conversation.updateOne(query, { $push: { messages: data } }).exec();
+
+  data.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.get("/conversation/messages/:id", (req, res) => {
+  var query = { conversation: req.params.id };
+  Message.find(query, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
 
 /*
  *
@@ -304,19 +328,19 @@ router.post("/conversation/create", (req, res) => {
   });
 });
 
-//Get conversation by conversation id
-router.get("/conversation/:id", (req, res) => {
-  var query = { _id: req.params.id };
-  Conversation.findOne(query, (err, data) => {
+//Get all conversations by user id
+router.get("/conversations/user", (req, res) => {
+  var query = { _id: req.user._id };
+  User.findById(query, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 
-//Get all conversations by user id
-router.get("/conversation/user", (req, res) => {
-  var query = { _id: req.user._id };
-  User.find(query, (err, data) => {
+//Get conversation by conversation id
+router.get("/conversation/:id", (req, res) => {
+  var query = { _id: req.params.id };
+  Conversation.findOne(query, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });

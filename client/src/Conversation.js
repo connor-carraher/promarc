@@ -12,12 +12,11 @@ class Conversation extends Component {
   };
 
   componentDidMount() {
-    this.getCurrUser();
+    //this.getCurrUser();
     // this.getLastMessage();
-    this.getReceiverUsername();
+    //this.getReceiverUsername();
     this.setState({
       conversationId: this.props.conversationId,
-      participants: this.props.participants,
       senderId: this.props.userId
     });
   }
@@ -26,32 +25,34 @@ class Conversation extends Component {
   //   axios.get();
   // };
 
-  getReceiverUsername = () => {
-    if (this.props.userId == this.props.participants[0]) {
-      axios
-        .get("/api/user/" + this.props.participants[1])
-        .then(res =>
-          this.setState({ receiverUsername: res.data.data.username })
-        );
-    } else {
-      axios
-        .get("/api/user/" + this.props.participants[0])
-        .then(res =>
-          this.setState({ receiverUsername: res.data.data.username })
-        );
-    }
-  };
+  // getReceiverUsername = () => {
+  //   if (this.props.userId == this.props.participants[0]) {
+  //     axios
+  //       .get("/api/user/" + this.props.participants[1])
+  //       .then(res =>
+  //         this.setState({ receiverUsername: res.data.data.username })
+  //       );
+  //   } else if (this.props.userId == this.props.participants[1]) {
+  //     axios
+  //       .get("/api/user/" + this.props.participants[0])
+  //       .then(res =>
+  //         this.setState({ receiverUsername: res.data.data.username })
+  //       );
+  //   }
+  // };
 
-  getCurrUser = () => {
-    axios
-      .get("/api/getCurrUser")
-      .then(res => this.setState({ senderId: res.data.userId }));
-  };
+  // getCurrUser = () => {
+  //   axios
+  //     .get("/api/getCurrUser")
+  //     .then(res => this.setState({ senderId: res.data.userId }));
+  // };
 
   render() {
     return (
       <div>
-        {this.state.receiverUsername}
+        <button onClick={this.props.onClick}>
+          {this.state.conversationId}
+        </button>
         <br />
         <br />
         <hr />

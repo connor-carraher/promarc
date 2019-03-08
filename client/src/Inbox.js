@@ -7,46 +7,67 @@ import {
   InputGroupAddon,
   InputGroupText,
   Input,
-  Button
+  Button,
+  Form
 } from "reactstrap";
 import "./Inbox.css";
 
 class Inbox extends Component {
-  state = {
-    data: [],
-    conversations: [],
-    id: 0,
-    intervalIsSet: false,
-    userId: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      conversations: [],
+      userId: "",
+      conversationId: "",
+      outboundMessage: "",
+      messages: []
+    };
+  }
 
   componentDidMount() {
     this.getCurrUser();
-    this.getDataFromDb();
     this.getConversationsFromDb();
   }
 
   getConversationsFromDb = () => {
     axios
-      .get("/api/conversation/user")
-      .then(res => this.setState({ conversations: res.data }));
+      .get("/api/conversations/user")
+      .then(res =>
+        this.setState({ conversations: res.data.data.conversations })
+      );
   };
 
-  getDataFromDb = () => {
-    fetch("/api/posts")
-      .then(data => data.json())
-      .then(res => this.setState({ data: res.data }));
+  getDataFromDb = dat => {
+    this.setState(prevState => ({ conversationId: dat }));
+    axios
+      .get("/api/conversation/messages/" + dat)
+      .then(res => this.setState({ messages: res.data }));
   };
 
   getCurrUser = () => {
     axios
       .get("/api/getCurrUser")
-      .then(res => this.setState({ userId: res.data.userId }));
+      .then(res => this.setState({ userId: res.data.user._id }));
+  };
+
+  sendMessage = () => {
+    axios.post(
+      "/api/conversation/message/update/" + this.state.conversationId,
+      {
+        content: this.state.outboundMessage
+      }
+    );
+    this.handleSubmit();
+  };
+
+  handleSubmit = () => {
+    document.getElementById("messageField").value = "";
   };
 
   render() {
-    const { data } = this.state;
-
+    const { data, conversations, conversationId, messages } = this.state;
+    // const messages = this.state.messages || [];
     return (
       <div>
         <div
@@ -57,14 +78,20 @@ class Inbox extends Component {
             borderRight: "2px solid lightgray"
           }}
         >
-          <Conversation
-            conversationId="5c764527e967040d5e5b3a8e"
-            participants={[
-              "5c64d85a3ebdf22bd89ec122",
-              "5c64d83b61a5856a95bb143e"
-            ]}
-            userId={this.state.userId}
-          />
+          <ul>
+            {conversations.length <= 0
+              ? "No Conversations"
+              : conversations.map((dat, index) => (
+                  <div>
+                    <Conversation
+                      key={dat}
+                      conversationId={dat}
+                      userId={this.state.userId}
+                      onClick={e => this.getDataFromDb(dat)}
+                    />
+                  </div>
+                ))}
+          </ul>
         </div>
         <div
           style={{
@@ -73,18 +100,38 @@ class Inbox extends Component {
           }}
         >
           <div className="flex-container">
-            {data.map(dat => (
-              //Logic for mine or yours container
-              <div className="yours-container">
-                <Message message={dat.title} />
-              </div>
-            ))}
+            <ul>
+              {conversationId == "" || !messages.data
+                ? "No conversation selected"
+                : messages.data.map((dat, index) =>
+                    //Logic for mine or yours container
+                    dat.userFrom == this.state.userId ? (
+                      <React.Fragment>
+                        <div className="mine-container">
+                          <Message message={dat.content} mineOrYours="mine" />
+                        </div>
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <div className="yours-container">
+                          <Message message={dat.content} mineOrYours="yours" />
+                        </div>
+                      </React.Fragment>
+                    )
+                  )}
+            </ul>
           </div>
           <div className="message-input">
             <InputGroup>
-              <Input placeholder="Type here" />
+              <Input
+                id="messageField"
+                placeholder="Type here"
+                onChange={e =>
+                  this.setState({ outboundMessage: e.target.value })
+                }
+              />
               <InputGroupAddon addonType="append">
-                <Button>Send</Button>
+                <Button onClick={e => this.sendMessage()}>Send</Button>
               </InputGroupAddon>
             </InputGroup>
           </div>

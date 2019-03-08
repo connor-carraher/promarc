@@ -14,9 +14,9 @@
 
 .mine-container {
   display: flex;
-  flex-direction: column;
   margin-left: auto;
   order: 2;
+  justify-content: flex-end;
 }
 
 .yours-container {
