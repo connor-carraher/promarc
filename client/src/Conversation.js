@@ -49,7 +49,7 @@ class Conversation extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ position: "fixed" }}>
         <button onClick={this.props.onClick}>
           {this.state.conversationId}
         </button>

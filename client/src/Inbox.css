@@ -25,3 +25,9 @@
   margin-right: auto;
   order: 2;
 }
+
+#messageList {
+  /*overflow-y: auto;*/
+  margin-bottom: 40px;
+  overflow: scroll;
+}

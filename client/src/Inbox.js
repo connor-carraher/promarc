@@ -23,6 +23,8 @@ class Inbox extends Component {
       outboundMessage: "",
       messages: []
     };
+
+    //this.scrollBottom = this.scrollBottom.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +45,7 @@ class Inbox extends Component {
     axios
       .get("/api/conversation/messages/" + dat)
       .then(res => this.setState({ messages: res.data }));
+    this.scrollBottom();
   };
 
   getCurrUser = () => {
@@ -59,10 +62,16 @@ class Inbox extends Component {
       }
     );
     this.handleSubmit();
+    this.scrollBottom();
   };
 
   handleSubmit = () => {
     document.getElementById("messageField").value = "";
+  };
+
+  scrollBottom = () => {
+    var el = document.getElementById("messageList");
+    el.scrollTop = el.scrollHeight;
   };
 
   render() {
@@ -100,7 +109,7 @@ class Inbox extends Component {
           }}
         >
           <div className="flex-container">
-            <ul>
+            <ul id="messageList">
               {conversationId == "" || !messages.data
                 ? "No conversation selected"
                 : messages.data.map((dat, index) =>
