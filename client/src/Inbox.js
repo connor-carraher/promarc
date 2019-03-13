@@ -19,7 +19,7 @@ class Inbox extends Component {
       data: [],
       conversations: [],
       userId: "",
-      conversationId: "",
+      conversationId: this.props.match.params.conversationId,
       outboundMessage: "",
       messages: []
     };
@@ -30,6 +30,12 @@ class Inbox extends Component {
   componentDidMount() {
     this.getCurrUser();
     this.getConversationsFromDb();
+    this.getDataFromDb(this.props.match.params.conversationId);
+    this.scrollBottomSmooth();
+  }
+
+  componentDidUpdate() {
+    this.scrollBottomAuto();
   }
 
   getConversationsFromDb = () => {
@@ -41,11 +47,11 @@ class Inbox extends Component {
   };
 
   getDataFromDb = dat => {
-    this.setState(prevState => ({ conversationId: dat }));
+    this.props.history.push('/inbox/' + dat);
     axios
       .get("/api/conversation/messages/" + dat)
       .then(res => this.setState({ messages: res.data }));
-    this.scrollBottom();
+    this.scrollBottomSmooth();
   };
 
   getCurrUser = () => {
@@ -56,30 +62,41 @@ class Inbox extends Component {
 
   sendMessage = () => {
     axios.post(
-      "/api/conversation/message/update/" + this.state.conversationId,
+      "/api/conversation/message/update/" + this.props.match.params.conversationId,
       {
         content: this.state.outboundMessage
       }
     );
     this.handleSubmit();
-    this.scrollBottom();
+    window.location.reload();
+    this.scrollBottomAuto();
   };
+
+  handleEnter = (e) => {
+    if (e.key == 'Enter') {
+      document.getElementById("messageField").value = "";
+      this.sendMessage();
+    }
+  }
 
   handleSubmit = () => {
     document.getElementById("messageField").value = "";
   };
 
-  scrollBottom = () => {
-    var el = document.getElementById("messageList");
-    el.scrollTop = el.scrollHeight;
+  scrollBottomSmooth = () => {
+    this.messagesEnd.scrollIntoView({behavior: "smooth"});
   };
 
+  scrollBottomAuto = () => {
+    this.messagesEnd.scrollIntoView();
+  }
+
   render() {
-    const { data, conversations, conversationId, messages } = this.state;
-    // const messages = this.state.messages || [];
+    const { data, conversations, messages } = this.state;
+    const {conversationId} = this.props.match.params.conversationId;
     return (
       <div>
-        <div
+        <div id="sideNav"
           style={{
             float: "left",
             width: "25%",
@@ -95,9 +112,11 @@ class Inbox extends Component {
                     <Conversation
                       key={dat}
                       conversationId={dat}
+                      isSelected = {dat == this.props.match.params.conversationId}
                       userId={this.state.userId}
                       onClick={e => this.getDataFromDb(dat)}
                     />
+                    <br/>
                   </div>
                 ))}
           </ul>
@@ -129,6 +148,7 @@ class Inbox extends Component {
                     )
                   )}
             </ul>
+            <div id="dummyDiv" ref={(el) => {this.messagesEnd = el;}} />
           </div>
           <div className="message-input">
             <InputGroup>
@@ -138,9 +158,11 @@ class Inbox extends Component {
                 onChange={e =>
                   this.setState({ outboundMessage: e.target.value })
                 }
+                onKeyPress={this.handleEnter}
+                autofocus="autofocus"
               />
               <InputGroupAddon addonType="append">
-                <Button onClick={e => this.sendMessage()}>Send</Button>
+                <Button onClick={e => this.sendMessage()} >Send</Button>
               </InputGroupAddon>
             </InputGroup>
           </div>

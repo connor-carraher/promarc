@@ -44,7 +44,7 @@ class Navbar extends Component {
               <DropdownMenu right>
                 <DropdownItem>
                   {" "}
-                  <NavLink href="/inbox/" style={{ color: "#000000" }}>
+                  <NavLink href="/inbox/0" style={{ color: "#000000" }}>
                     Inbox
                   </NavLink>
                 </DropdownItem>

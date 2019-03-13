@@ -31,7 +31,7 @@ class App extends Component {
               <Navbar />
               <Switch>
                 <Route path="/createpost" component={CreatePost} />
-                <Route path="/inbox" component={Inbox} />
+                <Route path="/inbox/:conversationId" component={Inbox} />
                 <Route path="/myposts" component={MyPosts} />
                 <Route path="/post/edit/:id" component={EditPost} />
                 <Route path="/post/:id" component={Post} />

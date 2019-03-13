@@ -170,7 +170,7 @@ class PostCard extends Component {
                               backgroundColor: "#069BEE"
                             }}
                             onClick={() => this.createConversation()}
-                            href="/"
+                            href="/inbox"
                           >
                             Contact
                           </Button>

@@ -1,3 +1,4 @@
+
 .sign-in {
   position: fixed;
   top: 65%;
@@ -17,7 +18,7 @@
 .subtitle {
   position: fixed;
   left: 50%;
-  top: 52%;
+  top: 50%;
   font-size: 20pt;
   transform: translate(-50%, -50%);
 }
