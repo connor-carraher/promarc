@@ -5,7 +5,7 @@
 }
 */
 
-html {
+#root, html {
   background-color: #dae0e6;
 }
 
@@ -40,4 +40,8 @@ html {
   to {
     transform: rotate(360deg);
   }
+}
+
+body {
+  overscroll-behavior: none;
 }

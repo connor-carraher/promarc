@@ -1,0 +1,42 @@
+.message-input {
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  height: 40px;
+  width: 75%;
+  background: #999;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.mine-container {
+  display: flex;
+  margin-left: auto;
+  order: 2;
+  justify-content: flex-end;
+}
+
+.yours-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+  order: 2;
+}
+
+#messageList {
+  /*overflow-y: auto;*/
+  margin-bottom: 40px;
+  overflow: scroll;
+}
+
+#sideNav {
+  position: fixed;
+  width: 250px;
+  height:100vh;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;
+}
