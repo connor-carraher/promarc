@@ -47,7 +47,7 @@ class Inbox extends Component {
   };
 
   getDataFromDb = dat => {
-    this.props.history.push('/inbox/' + dat);
+    this.props.history.push("/inbox/" + dat);
     axios
       .get("/api/conversation/messages/" + dat)
       .then(res => this.setState({ messages: res.data }));
@@ -62,7 +62,8 @@ class Inbox extends Component {
 
   sendMessage = () => {
     axios.post(
-      "/api/conversation/message/update/" + this.props.match.params.conversationId,
+      "/api/conversation/message/update/" +
+        this.props.match.params.conversationId,
       {
         content: this.state.outboundMessage
       }
@@ -72,54 +73,53 @@ class Inbox extends Component {
     this.scrollBottomAuto();
   };
 
-  handleEnter = (e) => {
-    if (e.key == 'Enter') {
+  handleEnter = e => {
+    if (e.key == "Enter") {
       document.getElementById("messageField").value = "";
       this.sendMessage();
     }
-  }
+  };
 
   handleSubmit = () => {
     document.getElementById("messageField").value = "";
   };
 
   scrollBottomSmooth = () => {
-    this.messagesEnd.scrollIntoView({behavior: "smooth"});
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
 
   scrollBottomAuto = () => {
     this.messagesEnd.scrollIntoView();
-  }
+  };
 
   render() {
     const { data, conversations, messages } = this.state;
-    const {conversationId} = this.props.match.params.conversationId;
+    const { conversationId } = this.props.match.params.conversationId;
     return (
       <div>
-        <div id="sideNav"
+        <div
+          id="sideNav"
           style={{
             float: "left",
             width: "25%",
             height: "100%",
+            backgroundColor: "white",
             borderRight: "2px solid lightgray"
           }}
         >
-          <ul>
-            {conversations.length <= 0
-              ? "No Conversations"
-              : conversations.map((dat, index) => (
-                  <div>
-                    <Conversation
-                      key={dat}
-                      conversationId={dat}
-                      isSelected = {dat == this.props.match.params.conversationId}
-                      userId={this.state.userId}
-                      onClick={e => this.getDataFromDb(dat)}
-                    />
-                    <br/>
-                  </div>
-                ))}
-          </ul>
+          {conversations.length <= 0
+            ? "No Conversations"
+            : conversations.map((dat, index) => (
+                <div>
+                  <Conversation
+                    key={dat}
+                    conversationId={dat}
+                    isSelected={dat == this.props.match.params.conversationId}
+                    userId={this.state.userId}
+                    onClick={e => this.getDataFromDb(dat)}
+                  />
+                </div>
+              ))}
         </div>
         <div
           style={{
@@ -148,7 +148,12 @@ class Inbox extends Component {
                     )
                   )}
             </ul>
-            <div id="dummyDiv" ref={(el) => {this.messagesEnd = el;}} />
+            <div
+              id="dummyDiv"
+              ref={el => {
+                this.messagesEnd = el;
+              }}
+            />
           </div>
           <div className="message-input">
             <InputGroup>
@@ -162,7 +167,7 @@ class Inbox extends Component {
                 autofocus="autofocus"
               />
               <InputGroupAddon addonType="append">
-                <Button onClick={e => this.sendMessage()} >Send</Button>
+                <Button onClick={e => this.sendMessage()}>Send</Button>
               </InputGroupAddon>
             </InputGroup>
           </div>

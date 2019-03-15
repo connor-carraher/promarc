@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./Message.css";
 import { Button, Spinner } from "reactstrap";
+import "./Conversation.css";
+import Avatar from "react-avatar";
 
 class Conversation extends Component {
   state = {
@@ -34,56 +36,64 @@ class Conversation extends Component {
       .then(res => this.setState({ lastMessage: res.data }));
   };
 
-  //<React.Fragment>
-  // {this.state.lastMessage.data
-  //   ? this.state.lastMessage.data.content
-  //   : ""}
-  //</React.Fragment>
-  //{this.state.conversation.data}
   render() {
     var isSelected = this.props.isSelected;
     var recipient = this.state;
     return (
       <React.Fragment>
         {isSelected ? (
-          <div>
+          <div className="panel selected" onClick={this.props.onClick}>
             {recipient.recipient.data ? (
-              <React.Fragment>
-                <Button color="secondary" onClick={this.props.onClick}>
-                  {recipient.recipient.data.username}
-                </Button>
-                {this.state.lastMessage.data
-                  ? this.state.lastMessage.data.content
-                  : ""}
-              </React.Fragment>
+              <div>
+                <div style={{ height: "100%", float: "left" }}>
+                  <Avatar
+                    name={recipient.recipient.data.username}
+                    size="50"
+                    round
+                    color="#069bee"
+                  />
+                </div>
+                <div className="user">{recipient.recipient.data.username}</div>
+              </div>
             ) : (
               <Spinner color="primary" />
             )}
-            <br />
-            <br />
-            <hr />
+            {this.state.lastMessage.data ? (
+              <div className="lastMessage">
+                {this.state.lastMessage.data.content}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         ) : (
-          <div>
+          <div className="panel" onClick={this.props.onClick}>
             {recipient.recipient.data ? (
-              <React.Fragment>
-                <Button outline color="secondary" onClick={this.props.onClick}>
-                  {recipient.recipient.data.username}
-                </Button>
-                <div>
-                  {this.state.lastMessage.data
-                    ? this.state.lastMessage.data.content
-                    : ""}
+              <div>
+                <div style={{ height: "100%", float: "left" }}>
+                  <Avatar
+                    name={recipient.recipient.data.username}
+                    size="50"
+                    round
+                    color="#069bee"
+                  />
                 </div>
-              </React.Fragment>
+                <div className="user">{recipient.recipient.data.username}</div>
+              </div>
             ) : (
               <Spinner color="primary" />
             )}
-            <br />
-            <br />
-            <hr />
+            {this.state.lastMessage.data ? (
+              <div className="lastMessage">
+                {" "}
+                {this.state.lastMessage.data.content}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         )}
+        <hr style={{ marginTop: "0px", marginBottom: "0px" }} />
       </React.Fragment>
     );
   }
