@@ -130,7 +130,7 @@ class Inbox extends Component {
           <div className="flex-container">
             <ul id="messageList">
               {conversationId == "" || !messages.data
-                ? "No conversation selected"
+                ? ""
                 : messages.data.map((dat, index) =>
                     //Logic for mine or yours container
                     dat.userFrom == this.state.userId ? (
