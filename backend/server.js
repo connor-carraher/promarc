@@ -300,6 +300,17 @@ router.get("/conversation/messages/:id", (req, res) => {
   });
 });
 
+router.get("/conversation/message/:id", (req, res) => {
+  var query = { conversation: req.params.id };
+  Message.find(query, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({
+      success: true,
+      data: data[data.length - 1]
+    });
+  });
+});
+
 /*
  *
  *
@@ -343,6 +354,25 @@ router.get("/conversation/:id", (req, res) => {
   Conversation.findOne(query, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
+  });
+});
+
+//Get recipient by conversation id
+router.get("/conversation/user/:id", (req, res) => {
+  var query = { _id: req.params.id };
+  Conversation.findOne(query).exec(function(error, result) {
+    participants = result.participants;
+    if (req.user.id == participants[0]) {
+      User.findById(participants[1], (err, data) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data });
+      });
+    } else {
+      User.findById(participants[0], (err, data) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data });
+      });
+    }
   });
 });
 
