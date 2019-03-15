@@ -1,0 +1,25 @@
+.panel {
+  padding-top: 10px;
+  padding-left: 25px;
+  height: 75px;
+  width: 100%;
+}
+
+.panel:hover {
+  background-color: #ededed;
+}
+
+.selected {
+  background-color: #ededed;
+}
+
+.user {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 60px;
+}
+
+.lastMessage {
+  margin-left: 60px;
+  color: darkgray;
+}
