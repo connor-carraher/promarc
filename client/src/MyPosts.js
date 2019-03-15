@@ -1,25 +1,48 @@
 // /client/App.js
 import React, { Component } from "react";
 import axios from "axios";
+import {
+  Spinner,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
+} from "reactstrap";
 
 class MyPosts extends Component {
-  state = {
-    data: [],
-    id: 0,
-    intervalIsSet: false,
-    userId: ""
-  };
-
-  componentDidMount() {
-    this.getCurrUser();
-    this.getDataFromDb();
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false,
+      data: [],
+      user: [],
+      id: 0,
+      intervalIsSet: false,
+      modalTitle: "",
+      modalSkills: "",
+      modalDescription: "",
+      modalId: "",
+      createdBy: ""
+    };
+    this.toggle = this.toggle.bind(this);
   }
 
-  getCurrUser = () => {
-    axios
-      .get("/api/getCurrUser")
-      .then(res => this.setState({ userId: res.data.user._id }));
-  };
+  toggle(title, skills, description, id, createdBy) {
+    this.setState(prevState => ({
+      modal: !prevState.modal,
+      modalTitle: title,
+      modalSkills: skills,
+      modalDescription: description,
+      modalId: id,
+      createdBy: createdBy
+    }));
+  }
+
+  componentDidMount() {
+    this.getDataFromDb();
+    this.getCurrUser();
+  }
 
   getDataFromDb = () => {
     fetch("/api/posts")
@@ -27,11 +50,28 @@ class MyPosts extends Component {
       .then(res => this.setState({ data: res.data }));
   };
 
+  deletePostFromDb = id => {
+    axios.delete("/api/post/delete/" + id);
+  };
+
+  createConversation = () => {
+    axios.post("/api/conversation/create/", {
+      receiver: this.state.createdBy,
+      sender: this.state.user._id
+    });
+  };
+
+  getCurrUser = () => {
+    axios
+      .get("/api/getCurrUser")
+      .then(res => this.setState({ user: res.data.user }));
+  };
+
   render() {
     const { data } = this.state;
     var i = 0;
     while (i < data.length) {
-      if (data[i].createdBy != this.state.userId) {
+      if (data[i].createdBy != this.state.user._id) {
         data.splice(i, 1);
       } else {
         i++;
@@ -42,39 +82,148 @@ class MyPosts extends Component {
         <div
           style={{
             borderRight: "2px solid lightgray",
-            float: "left",
-            width: "75%"
+            backgroundColor: "#DAE0E6",
+            paddingTop: "5px"
           }}
         >
           <ul>
-            {data.length <= 0
-              ? "NO DB ENTRIES YET"
-              : data.map(dat => (
+            {data.length <= 0 ? (
+              <Spinner
+                style={{ position: "fixed", top: "50%", left: "50%" }}
+                color="primary"
+              />
+            ) : (
+              data.map((dat, index) => (
+                <div className="col-6 offset-md-3">
                   <li
                     style={{
                       listStyleType: "none",
-                      margin: "10px",
-                      paddingTop: "5px"
+                      margin: "20px",
+                      padding: "5px 5px 5px 20px",
+                      backgroundColor: "#FFFFFF",
+                      borderRadius: "10px",
+                      borderLeft: "6px solid #069BEE"
                     }}
                     key={dat._id}
                   >
-                    {/*<span style={{ color: "gray" }}> id: </span> {dat._id} <br />
-                  <span style={{ color: "gray" }}> Title: </span>{" "}*/}
-                    <a style={{ fontSize: "24pt" }} href={"/post/" + dat._id}>
+                    <Button
+                      color="link"
+                      style={{ fontSize: "24pt", padding: "0px" }}
+                      onClick={e =>
+                        this.toggle(
+                          dat.title,
+                          dat.skills,
+                          dat.description,
+                          dat._id,
+                          dat.createdBy
+                        )
+                      }
+                    >
                       {dat.title}
-                    </a>{" "}
+                    </Button>
+                    <Modal
+                      isOpen={this.state.modal}
+                      toggle={e =>
+                        this.toggle(
+                          dat.title,
+                          dat.skills,
+                          dat.description,
+                          dat._id,
+                          dat.createdBy
+                        )
+                      }
+                      className={this.props.className}
+                    >
+                      <ModalHeader
+                        toggle={e =>
+                          this.toggle(
+                            dat.title,
+                            dat.skills,
+                            dat.description,
+                            dat._id,
+                            dat.createdBy
+                          )
+                        }
+                      >
+                        {this.state.modalTitle}
+                      </ModalHeader>
+                      <ModalBody>
+                        Skills: {this.state.modalSkills}
+                        <hr /> Description: {this.state.modalDescription}
+                      </ModalBody>
+                      <ModalFooter>
+                        {this.state.user._id == this.state.createdBy ||
+                        this.state.user.isModerator ? (
+                          <React.Fragment>
+                            <Button
+                              style={{
+                                float: "right",
+                                backgroundColor: "#069BEE"
+                              }}
+                              href={"/post/edit/" + this.state.modalId}
+                            >
+                              {" "}
+                              Edit{" "}
+                            </Button>
+                            <Button
+                              style={{
+                                float: "right",
+                                backgroundColor: "#069BEE"
+                              }}
+                              onClick={() =>
+                                this.deletePostFromDb(this.state.modalId)
+                              }
+                              href="/"
+                            >
+                              Delete
+                            </Button>
+                          </React.Fragment>
+                        ) : (
+                          <React.Fragment> </React.Fragment>
+                        )}
+                        <Button
+                          style={{
+                            float: "right",
+                            backgroundColor: "#069BEE"
+                          }}
+                          onClick={() => this.createConversation()}
+                          href="/inbox"
+                        >
+                          Contact
+                        </Button>
+                      </ModalFooter>
+                    </Modal>
                     <br />
                     <span
                       style={{
                         fontWeight: "bold",
                         fontSize: "16pt",
-                        color: "black"
+                        color: "black",
+                        float: "left"
                       }}
                     >
                       {" "}
                       Skills:{" "}
+                    </span>
+                    <span style={{ fontSize: "14pt" }}>
+                      {dat.skills.split(",").map(skill => (
+                        <div
+                          style={{
+                            borderStyle: "solid",
+                            borderWidth: "1px",
+                            float: "left",
+                            borderRadius: "5px",
+                            marginRight: "5px",
+                            marginLeft: "5px",
+                            padding: "3px",
+                            backgroundColor: "#c9ddff"
+                          }}
+                        >
+                          {skill}
+                        </div>
+                      ))}
                     </span>{" "}
-                    <span style={{ fontSize: "16pt" }}>{dat.skills}</span>{" "}
+                    <br />
                     <br />
                     <span
                       style={{
@@ -85,17 +234,16 @@ class MyPosts extends Component {
                     >
                       {" "}
                       Description:{" "}
-                    </span>{" "}
-                    <span style={{ fontSize: "12pt" }}>
-                      {dat.description}
-                    </span>{" "}
+                    </span>
+                    <span style={{ fontSize: "12pt" }}>{dat.description}</span>
                     <br />
                     <hr />
                   </li>
-                ))}
+                </div>
+              ))
+            )}
           </ul>
         </div>
-        <div style={{ float: "left", width: "25%" }} />
       </div>
     );
   }
