@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const { Post, User, Conversation, Message } = require("./data");
+require("dotenv").config();
 
 const API_PORT = 3001;
 const app = express();
@@ -38,7 +39,10 @@ passport.use(
       clientID:
         "307499592437-dln10svivbmo837h0vs0n7jp21rtrd9m.apps.googleusercontent.com",
       clientSecret: "5IMMEpqFev9TG8NF6xMrtZeR",
-      callbackURL: "http://localhost:3001/api/auth/google/callback"
+      callbackURL:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3001/api/auth/google/callback"
+          : "https://stark-reef-89878.herokuapp.com/"
     },
     function(accessToken, refreshToken, profile, done) {
       /*if (profile._json["domain"] != "scu.edu") {
@@ -109,11 +113,17 @@ router.get(
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/login"
+    failureRedirect:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/login"
+        : "https://stark-reef-89878.herokuapp.com/"
   }),
   function(req, res) {
-    //res.send(req.user);
-    res.redirect("http://localhost:3000/");
+    if (process.env.NODE_ENV === "development") {
+      res.redirect("http://localhost:3000/");
+    } else {
+      res.redirect("https://stark-reef-89878.herokuapp.com/");
+    }
   }
 );
 
