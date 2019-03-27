@@ -21,6 +21,7 @@
     "concurrently": "^4.1.0",
     "cookie-session": "^2.0.0-beta.3",
     "dotenv": "^7.0.0",
+    "git-subtree": "^0.2.1",
     "react-router-dom": "^4.3.1",
     "reactstrap": "^7.1.0"
   }
