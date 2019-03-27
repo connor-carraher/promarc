@@ -5,7 +5,7 @@ const logger = require("morgan");
 const { Post, User, Conversation, Message } = require("./data");
 require("dotenv").config();
 
-const API_PORT = 3001;
+const API_PORT = process.env.PORT || 3001;
 const app = express();
 const router = express.Router();
 
@@ -42,7 +42,7 @@ passport.use(
       callbackURL:
         process.env.NODE_ENV === "development"
           ? "http://localhost:3001/api/auth/google/callback"
-          : "https://stark-reef-89878.herokuapp.com/"
+          : "https://promarc-backend-prod.herokuapp.com/"
     },
     function(accessToken, refreshToken, profile, done) {
       /*if (profile._json["domain"] != "scu.edu") {
@@ -116,13 +116,13 @@ router.get(
     failureRedirect:
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000/login"
-        : "https://stark-reef-89878.herokuapp.com/"
+        : "https://promarc-backend-prod.herokuapp.com/login"
   }),
   function(req, res) {
     if (process.env.NODE_ENV === "development") {
       res.redirect("http://localhost:3000/");
     } else {
-      res.redirect("https://stark-reef-89878.herokuapp.com/");
+      res.redirect("https://promarc-backend-prod.herokuapp.com/");
     }
   }
 );
