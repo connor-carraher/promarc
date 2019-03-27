@@ -56,7 +56,10 @@ class Conversation extends Component {
                 <div className="user">{recipient.recipient.data.username}</div>
               </div>
             ) : (
-              <Spinner color="primary" />
+              <Spinner
+                color="primary"
+                style={{ position: "fixed", top: "50%", left: "50%" }}
+              />
             )}
             {this.state.lastMessage.data ? (
               <div className="lastMessage">
@@ -81,7 +84,10 @@ class Conversation extends Component {
                 <div className="user">{recipient.recipient.data.username}</div>
               </div>
             ) : (
-              <Spinner color="primary" />
+              <Spinner
+                color="primary"
+                style={{ position: "relative", top: "20%", left: "40%" }}
+              />
             )}
             {this.state.lastMessage.data ? (
               <div className="lastMessage">
