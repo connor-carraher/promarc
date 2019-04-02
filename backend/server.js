@@ -116,13 +116,13 @@ router.get(
     failureRedirect:
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000/login"
-        : "https://promarc-frontend-prod.herokuapp.com/login"
+        : "http://promarc-frontend-prod.herokuapp.com/login"
   }),
   function(req, res) {
     if (process.env.NODE_ENV === "development") {
       res.redirect("http://localhost:3000/");
     } else {
-      res.redirect("https://promarc-frontend-prod.herokuapp.com/");
+      res.redirect("http://promarc-frontend-prod.herokuapp.com/");
     }
   }
 );
