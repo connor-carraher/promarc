@@ -26,6 +26,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://connorcarraher.com",
   "browserslist": [
     ">0.2%",
     "not dead",
