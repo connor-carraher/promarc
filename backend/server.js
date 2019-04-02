@@ -17,7 +17,7 @@ var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
 const cookieSession = require("cookie-session");
 
-app.enable("trust proxy");
+app.set("trust proxy", 1);
 
 //cookieSession config
 app.use(
