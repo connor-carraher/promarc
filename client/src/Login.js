@@ -15,7 +15,7 @@ class Login extends Component {
             className="sign-in"
             color="primary"
             a
-            href="https://promarc-backend-prod.herokuapp.com/api/auth/google"
+            href="https://connorcarraher.com/api/auth/google"
           >
             Sign in with Google
           </Button>
