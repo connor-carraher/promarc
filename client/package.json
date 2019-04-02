@@ -26,6 +26,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://promarc-frontend-prod.herokuapp.com",
   "browserslist": [
     ">0.2%",
     "not dead",
