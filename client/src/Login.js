@@ -15,7 +15,7 @@ class Login extends Component {
             className="sign-in"
             color="primary"
             a
-            href="http://promarc-backend-prod/api/auth/google"
+            href="https://promarc-backend-prod/api/auth/google"
           >
             Sign in with Google
           </Button>
