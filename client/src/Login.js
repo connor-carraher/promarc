@@ -15,7 +15,7 @@ class Login extends Component {
             className="sign-in"
             color="primary"
             a
-            href="https://connorcarraher.com/api/auth/google"
+            href="http://connorcarraher.com/api/auth/google"
           >
             Sign in with Google
           </Button>
