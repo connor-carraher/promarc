@@ -42,7 +42,7 @@ passport.use(
       callbackURL:
         process.env.NODE_ENV === "development"
           ? "http://localhost:3001/api/auth/google/callback"
-          : "https://promarc-backend-prod.herokuapp.com/"
+          : "https://promarc-backend-prod.herokuapp.com/api/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       /*if (profile._json["domain"] != "scu.edu") {
@@ -116,7 +116,7 @@ router.get(
     failureRedirect:
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000/login"
-        : "https://promarc-backend-prod.herokuapp.com/login"
+        : "https://promarc-frontend-prod.herokuapp.com/login"
   }),
   function(req, res) {
     if (process.env.NODE_ENV === "development") {
