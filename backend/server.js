@@ -22,8 +22,7 @@ app.use(
   cookieSession({
     keys: ["thiskeyisusedforencryption"],
     maxAge: 24 * 60 * 60 * 1000, // One day in milliseconds
-    httpOnly: false,
-    domain: ".com"
+    httpOnly: false
   })
 );
 
@@ -117,13 +116,13 @@ router.get(
     failureRedirect:
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000/login"
-        : "http://promarc-frontend-prod.herokuapp.com/login"
+        : "http://promarc-prod.com/login"
   }),
   function(req, res) {
     if (process.env.NODE_ENV === "development") {
       res.redirect("http://localhost:3000/");
     } else {
-      res.redirect("http://promarc-frontend-prod.herokuapp.com/");
+      res.redirect("http://promarc-prod.com/");
     }
   }
 );
