@@ -42,7 +42,7 @@ passport.use(
       callbackURL:
         process.env.NODE_ENV === "development"
           ? "http://localhost:3001/api/auth/google/callback"
-          : "https://promarc-backend-prod.herokuapp.com/api/auth/google/callback"
+          : "http://promarc-backend-prod.herokuapp.com/api/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       /*if (profile._json["domain"] != "scu.edu") {
