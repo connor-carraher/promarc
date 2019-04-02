@@ -116,13 +116,13 @@ router.get(
     failureRedirect:
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000/login"
-        : "http://promarc-prod.com/login"
+        : "http://www.promarc-prod.com/login"
   }),
   function(req, res) {
     if (process.env.NODE_ENV === "development") {
       res.redirect("http://localhost:3000/");
     } else {
-      res.redirect("http://promarc-prod.com/");
+      res.redirect("http://www.promarc-prod.com/");
     }
   }
 );
