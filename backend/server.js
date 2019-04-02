@@ -17,14 +17,13 @@ var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
 const cookieSession = require("cookie-session");
 
-app.enable("trust proxy", 1);
-
 //cookieSession config
 app.use(
   cookieSession({
     keys: ["thiskeyisusedforencryption"],
     maxAge: 24 * 60 * 60 * 1000, // One day in milliseconds
-    httpOnly: false
+    httpOnly: false,
+    domain: ".com"
   })
 );
 
