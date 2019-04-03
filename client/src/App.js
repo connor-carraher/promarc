@@ -15,7 +15,7 @@ import "./App.css";
 class App extends Component {
   state = {
     data: [],
-    loggedIn: true
+    loggedIn: false
   };
 
   render() {
