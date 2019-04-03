@@ -1,48 +1,65 @@
+const fs = require('fs');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
+const configUtils = require('webpack-config-utils');
+const babelRcConfig = JSON.parse(fs.readFileSync('.babelrc'));
 
-const outputDirectory = 'dist';
+module.exports = env => {
+  env = env || {};
+  const ifUtils = configUtils.getIfUtils(env);
 
-module.exports = {
-  entry: ['babel-polyfill', './src/client/index.js'],
-  output: {
-    path: path.join(__dirname, outputDirectory),
-    filename: 'bundle.js'
-  },
-  module: {
-    rules: [{
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        loader: 'url-loader?limit=100000'
-      }
-    ]
-  },
-  resolve: {
-    extensions: ['*', '.js', '.jsx']
-  },
-  devServer: {
-    port: 3000,
-    open: true,
-    proxy: {
-      '/api': 'http://localhost:8080'
-    }
-  },
-  plugins: [
-    new CleanWebpackPlugin([outputDirectory]),
-    new HtmlWebpackPlugin({
-      template: './public/index.html',
-      favicon: './public/favicon.ico'
-    })
-  ]
+  return {
+    context: path.resolve('public/src'),
+    entry: {
+      main: 'index.js',
+    },
+    devtool: 'source-map',
+    output: {
+      path: path.resolve('public/js'),
+      filename: '[name].min.js',
+      pathinfo: true,
+    },
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          use: [{
+            loader: 'babel-loader',
+            options: Object.assign(
+              babelRcConfig,
+              {
+                cacheDirectory: true,
+                babelrc: false,
+                forceEnv: env,
+              }
+            ),
+          }],
+        },
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader'],
+        },
+      ],
+    },
+    plugins: configUtils.removeEmpty([
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(
+          ifUtils.ifProduction('production', process.env.NODE_ENV || 'development')
+        ),
+      }),
+      ifUtils.ifProduction(
+        new webpack.optimize.UglifyJsPlugin({
+          sourceMap: true,
+          compress: { drop_console: true, warnings: false },
+        })
+      ),
+      ifUtils.ifProduction(
+        new webpack.LoaderOptionsPlugin({ minimize: true })
+      ),
+    ]),
+    resolve: {
+      modules: ['node_modules', path.resolve('public/src')],
+    },
+  };
 };

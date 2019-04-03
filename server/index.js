@@ -1,3 +1,4 @@
+const path = require('path');
 const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -7,8 +8,9 @@ require("dotenv").config();
 
 const API_PORT = process.env.PORT || 8080;
 const app = express();
-app.use(express.static("dist"));
-const router = express.Router();
+
+import webpack from './webpack';
+app.use(webpack());
 
 // this is our MongoDB database
 const dbRoute = "mongodb://promarc:password1@ds257858.mlab.com:57858/promarc";
@@ -93,6 +95,8 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
+
+const router = express.Router();
 
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -389,6 +393,11 @@ router.get("/conversation/user/:id", (req, res) => {
 
 // append /api for our http requests
 app.use("/api", router);
+
+// set up front-end
+app.use(express.static(__dirname + '/../public/html'));
+app.use('/js', express.static(path.join(__dirname + '/../public/js')));
+app.use('/myposts', (req, res) => res.sendfile(path.resolve(__dirname + '/../public/html/index.html')));
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
