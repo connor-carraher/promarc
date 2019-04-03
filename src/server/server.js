@@ -5,8 +5,9 @@ const logger = require("morgan");
 const { Post, User, Conversation, Message } = require("./data");
 require("dotenv").config();
 
-const API_PORT = process.env.PORT || 3001;
+const API_PORT = process.env.PORT || 8080;
 const app = express();
+app.use(express.static("dist"));
 const router = express.Router();
 
 // this is our MongoDB database
@@ -41,8 +42,8 @@ passport.use(
       clientSecret: "5IMMEpqFev9TG8NF6xMrtZeR",
       callbackURL:
         process.env.NODE_ENV === "development"
-          ? "http://localhost:3001/api/auth/google/callback"
-          : "http://promarc-prod.com/api/auth/google/callback"
+          ? "http://localhost:8080/api/auth/google/callback"
+          : "http://connorcarraher.com/api/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       /*if (profile._json["domain"] != "scu.edu") {
@@ -115,12 +116,12 @@ router.get(
   passport.authenticate("google", {
     failureRedirect:
       process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/login"
+        ? "http://localhost:8080/login"
         : "http://promarc-prod.com/login"
   }),
   function(req, res) {
     if (process.env.NODE_ENV === "development") {
-      res.redirect("http://localhost:3000/");
+      res.redirect("http://localhost:8080/");
     } else {
       res.redirect("http://promarc-prod.com/");
     }

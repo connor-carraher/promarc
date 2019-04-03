@@ -11,12 +11,7 @@ class Login extends Component {
           <h1 className="subtitle text-muted">Find your team.</h1>
         </div>
         <div>
-          <Button
-            className="sign-in"
-            color="primary"
-            a
-            href="http://connorcarraher.com/api/auth/google"
-          >
+          <Button className="sign-in" color="primary" a href="/api/auth/google">
             Sign in with Google
           </Button>
         </div>
