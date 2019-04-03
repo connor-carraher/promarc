@@ -47,7 +47,7 @@ class PostCard extends Component {
   }
 
   getDataFromDb = () => {
-    fetch("/api/posts")
+    fetch("connorcarraher.com/api/posts")
       .then(data => data.json())
       .then(res => this.setState({ data: res.data }));
   };
