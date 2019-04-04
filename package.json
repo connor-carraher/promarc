@@ -1,26 +1,51 @@
 {
   "name": "promarc",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Boilerplate to build a full stack web application using React, Node.js, Express and Webpack.",
+  "main": "server/index.js",
   "scripts": {
-    "start": "concurrently \"cd backend && npm start\" \"cd client && npm start\""
+    "start": "babel-node .",
+    "dev": "NODE_ENV=development nodemon --exec babel-node ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/connor-carraher/promarc.git"
-  },
-  "keywords": [],
-  "author": "",
+  "author": "Connor Carraher and Victor Yu",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/connor-carraher/promarc/issues"
-  },
-  "homepage": "https://github.com/connor-carraher/promarc#readme",
   "dependencies": {
+    "express": "^4.16.4",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "concurrently": "^4.1.0",
     "cookie-session": "^2.0.0-beta.3",
+    "dotenv": "^7.0.0",
+    "git-subtree": "^0.2.1",
     "react-router-dom": "^4.3.1",
-    "reactstrap": "^7.1.0"
+    "reactstrap": "^7.1.0",
+    "@livechat/ui-kit": "^0.2.14",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.2.1",
+    "js-cookie": "^2.2.0",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
+    "react-avatar": "^3.6.0",
+    "mongoose": "^5.4.12",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^2.1.1",
+    "hard-source-webpack-plugin": "^0.4.9",
+    "node-object-hash": "^1.3.0",
+    "nodemon": "^1.17.3",
+    "style-loader": "^0.23.1",
+    "webpack": "^3.4.1",
+    "webpack-config-utils": "^2.3.0",
+    "webpack-dev-middleware": "^1.12.0"
+  },
+  "engines": {
+    "node": "8.x"
   }
 }

@@ -11,6 +11,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
+import { Link } from 'react-router-dom';
 
 class Navbar extends Component {
   logout = () => {
@@ -44,26 +45,26 @@ class Navbar extends Component {
               <DropdownMenu right>
                 <DropdownItem>
                   {" "}
-                  <NavLink href="/inbox/0" style={{ color: "#000000" }}>
+                  <NavLink tag={Link} to="/inbox/0" style={{ color: "#000000" }}>
                     Inbox
                   </NavLink>
                 </DropdownItem>
                 <DropdownItem>
                   {" "}
-                  <NavLink href="/myposts/" style={{ color: "#000000" }}>
+                  <NavLink tag={Link} to="/myposts/" style={{ color: "#000000" }}>
                     My Posts
                   </NavLink>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavItem>
-              <NavLink href="/createpost/" style={{ color: "#FFFFFF" }}>
+              <NavLink tag={Link} to="/createpost/" style={{ color: "#FFFFFF" }}>
                 Create Post
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink
-                href="/"
+              <NavLink tag={Link}
+                to="/"
                 style={{ color: "#FFFFFF" }}
                 onClick={() => this.logout()}
               >

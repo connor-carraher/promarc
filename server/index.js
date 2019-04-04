@@ -1,12 +1,16 @@
+const path = require("path");
 const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const { Post, User, Conversation, Message } = require("./data");
+require("dotenv").config();
 
-const API_PORT = 3001;
+const API_PORT = process.env.PORT || 8080;
 const app = express();
-const router = express.Router();
+
+import webpack from "./webpack";
+app.use(webpack());
 
 // this is our MongoDB database
 const dbRoute = "mongodb://promarc:password1@ds257858.mlab.com:57858/promarc";
@@ -38,7 +42,10 @@ passport.use(
       clientID:
         "307499592437-dln10svivbmo837h0vs0n7jp21rtrd9m.apps.googleusercontent.com",
       clientSecret: "5IMMEpqFev9TG8NF6xMrtZeR",
-      callbackURL: "http://localhost:3001/api/auth/google/callback"
+      callbackURL:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:8080/api/auth/google/callback"
+          : "http://connorcarraher.com/api/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       /*if (profile._json["domain"] != "scu.edu") {
@@ -89,6 +96,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
+const router = express.Router();
+
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Google authentication will involve
@@ -109,11 +118,17 @@ router.get(
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/login"
+    failureRedirect:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:8080/login"
+        : "http://promarc-prod.com/login"
   }),
   function(req, res) {
-    //res.send(req.user);
-    res.redirect("http://localhost:3000/");
+    if (process.env.NODE_ENV === "development") {
+      res.redirect("http://localhost:8080/");
+    } else {
+      res.redirect("http://promarc-prod.com/");
+    }
   }
 );
 
@@ -361,7 +376,7 @@ router.get("/conversation/:id", (req, res) => {
 router.get("/conversation/user/:id", (req, res) => {
   var query = { _id: req.params.id };
   Conversation.findOne(query).exec(function(error, result) {
-    participants = result.participants;
+    var participants = result.participants;
     if (req.user.id == participants[0]) {
       User.findById(participants[1], (err, data) => {
         if (err) return res.json({ success: false, error: err });
@@ -378,6 +393,13 @@ router.get("/conversation/user/:id", (req, res) => {
 
 // append /api for our http requests
 app.use("/api", router);
+
+// set up front-end
+app.use(express.static(__dirname + "/../public/html"));
+app.use("/js", express.static(path.join(__dirname + "/../public/js")));
+app.use("/myposts", (req, res) =>
+  res.sendfile(path.resolve(__dirname + "/../public/html/index.html"))
+);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
