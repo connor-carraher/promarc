@@ -151,10 +151,12 @@ passport.deserializeUser(function(id, done) {
 
 //Get All Posts
 router.get("/posts", (req, res) => {
-  Post.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
+  Post.find()
+    .sort({ updatedAt: -1 })
+    .exec((err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data });
+    });
 });
 
 //Get Post by ID
@@ -356,11 +358,27 @@ router.post("/conversation/create", (req, res) => {
 
 //Get all conversations by user id
 router.get("/conversations/user", (req, res) => {
-  var query = { _id: req.user._id };
-  User.findById(query, (err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
+  var query = { participants: req.user };
+  Conversation.find(query)
+    .sort({ updatedAt: -1 })
+    .exec((err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data });
+    });
+
+  // var query = { _id: req.user._id };
+  // User.findById(query)
+  //   .sort({ updatedAt: -1 })
+  //   .exec((err, data) => {
+  //     if (err) return res.json({ success: false, error: err });
+  //     return res.json({ success: true, data: data });
+  //   });
+
+  // var query = { _id: req.user._id };
+  // User.findById(query, (err, data) => {
+  //   if (err) return res.json({ success: false, error: err });
+  //   return res.json({ success: true, data: data });
+  // });
 });
 
 //Get conversation by conversation id

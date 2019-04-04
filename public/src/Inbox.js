@@ -41,9 +41,7 @@ class Inbox extends Component {
   getConversationsFromDb = () => {
     axios
       .get("/api/conversations/user")
-      .then(res =>
-        this.setState({ conversations: res.data.data.conversations })
-      );
+      .then(res => this.setState({ conversations: res.data.data }));
   };
 
   getDataFromDb = dat => {
@@ -95,6 +93,7 @@ class Inbox extends Component {
   render() {
     const { data, conversations, messages } = this.state;
     const { conversationId } = this.props.match.params.conversationId;
+    console.log(conversations);
     return (
       <div>
         <div
@@ -112,11 +111,11 @@ class Inbox extends Component {
             : conversations.map((dat, index) => (
                 <div>
                   <Conversation
-                    key={dat}
-                    conversationId={dat}
+                    key={dat._id}
+                    conversationId={dat._id}
                     isSelected={dat == this.props.match.params.conversationId}
                     userId={this.state.userId}
-                    onClick={e => this.getDataFromDb(dat)}
+                    onClick={e => this.getDataFromDb(dat._id)}
                   />
                 </div>
               ))}
