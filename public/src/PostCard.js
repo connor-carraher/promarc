@@ -52,11 +52,6 @@ class PostCard extends Component {
     fetch("/api/posts")
       .then(data => data.json())
       .then(res => this.setState({ data: res.data }));
-
-    // console.log(this.state.data);
-    // var data = this.state.data;
-    // this.setState({ data: data.sort(this.compare) });
-    // console.log(this.state.data);
   };
 
   deletePostFromDb = id => {
