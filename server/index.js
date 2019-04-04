@@ -292,7 +292,7 @@ router.get("/getCurrUser", (req, res) => {
  */
 router.post("/conversation/message/update/:id", (req, res) => {
   let data = new Message();
-  conversationId = req.params.id;
+  var conversationId = req.params.id;
 
   data.content = req.body.content;
   data.userFrom = req.user._id;

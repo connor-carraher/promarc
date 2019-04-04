@@ -11,12 +11,13 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 class Navbar extends Component {
   logout = () => {
     Cookies.remove("session");
     Cookies.remove("session.sig");
+    window.location.reload();
   };
   render() {
     return (
@@ -45,26 +46,39 @@ class Navbar extends Component {
               <DropdownMenu right>
                 <DropdownItem>
                   {" "}
-                  <NavLink tag={Link} to="/inbox/0" style={{ color: "#000000" }}>
+                  <NavLink
+                    tag={Link}
+                    to="/inbox/0"
+                    style={{ color: "#000000" }}
+                  >
                     Inbox
                   </NavLink>
                 </DropdownItem>
                 <DropdownItem>
                   {" "}
-                  <NavLink tag={Link} to="/myposts/" style={{ color: "#000000" }}>
+                  <NavLink
+                    tag={Link}
+                    to="/myposts/"
+                    style={{ color: "#000000" }}
+                  >
                     My Posts
                   </NavLink>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavItem>
-              <NavLink tag={Link} to="/createpost/" style={{ color: "#FFFFFF" }}>
+              <NavLink
+                tag={Link}
+                to="/createpost/"
+                style={{ color: "#FFFFFF" }}
+              >
                 Create Post
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link}
-                to="/"
+              <NavLink
+                tag={Link}
+                to="/logout"
                 style={{ color: "#FFFFFF" }}
                 onClick={() => this.logout()}
               >
