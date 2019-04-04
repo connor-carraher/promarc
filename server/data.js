@@ -20,10 +20,13 @@ const userSchema = new Schema({
   isModerator: { type: Boolean, default: false }
 });
 
-const conversationSchema = new Schema({
-  participants: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  messages: [{ type: Schema.Types.ObjectId, ref: "Message" }]
-});
+const conversationSchema = new Schema(
+  {
+    participants: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    messages: [{ type: Schema.Types.ObjectId, ref: "Message" }]
+  },
+  { timestamps: true }
+);
 
 const messageSchema = new Schema(
   {

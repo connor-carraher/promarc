@@ -9,6 +9,7 @@ import {
   ModalFooter
 } from "reactstrap";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import "./post.css";
 
@@ -25,7 +26,8 @@ class PostCard extends Component {
       modalSkills: "",
       modalDescription: "",
       modalId: "",
-      createdBy: ""
+      createdBy: "",
+      updatedAt: ""
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -54,6 +56,7 @@ class PostCard extends Component {
 
   deletePostFromDb = id => {
     axios.delete("/api/post/delete/" + id);
+    window.location.reload();
   };
 
   createConversation = () => {
@@ -150,16 +153,18 @@ class PostCard extends Component {
                         this.state.user.isModerator ? (
                           <React.Fragment>
                             <Button
+                              tag={Link}
                               style={{
                                 float: "right",
                                 backgroundColor: "#069BEE"
                               }}
-                              href={"/post/edit/" + this.state.modalId}
+                              to={"/post/edit/" + this.state.modalId}
                             >
                               {" "}
                               Edit{" "}
                             </Button>
                             <Button
+                              tag={Link}
                               style={{
                                 float: "right",
                                 backgroundColor: "#069BEE"
@@ -167,7 +172,7 @@ class PostCard extends Component {
                               onClick={() =>
                                 this.deletePostFromDb(this.state.modalId)
                               }
-                              href="/"
+                              to="/"
                             >
                               Delete
                             </Button>
@@ -175,16 +180,21 @@ class PostCard extends Component {
                         ) : (
                           <React.Fragment> </React.Fragment>
                         )}
-                        <Button
-                          style={{
-                            float: "right",
-                            backgroundColor: "#069BEE"
-                          }}
-                          onClick={() => this.createConversation()}
-                          href="/inbox"
-                        >
-                          Contact
-                        </Button>
+                        {this.state.user._id != this.state.createdBy ? (
+                          <Button
+                            tag={Link}
+                            style={{
+                              float: "right",
+                              backgroundColor: "#069BEE"
+                            }}
+                            onClick={() => this.createConversation()}
+                            to="/inbox/0"
+                          >
+                            Contact
+                          </Button>
+                        ) : (
+                          <React.Fragment> </React.Fragment>
+                        )}
                       </ModalFooter>
                     </Modal>
                     <br />
@@ -230,6 +240,19 @@ class PostCard extends Component {
                       Description:{" "}
                     </span>
                     <span style={{ fontSize: "12pt" }}>{dat.description}</span>
+                    <br />
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "12pt",
+                        color: "gray"
+                      }}
+                    >
+                      Date:{" "}
+                    </span>
+                    <span style={{ fontSize: "12pt" }}>
+                      {dat.updatedAt.substring(0, 10)}
+                    </span>
                     <br />
                     <hr />
                   </li>
