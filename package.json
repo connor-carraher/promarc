@@ -7,7 +7,7 @@
     "start": "babel-node .",
     "dev": "NODE_ENV=development nodemon --exec babel-node ."
   },
-  "author": "Connor Carraher and Victor Yu",
+  "author": "Connorr Carraher and Victor Yu",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
