@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require("path");
 const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -9,7 +9,7 @@ require("dotenv").config();
 const API_PORT = process.env.PORT || 8080;
 const app = express();
 
-import webpack from './webpack';
+import webpack from "./webpack";
 app.use(webpack());
 
 // this is our MongoDB database
@@ -376,7 +376,7 @@ router.get("/conversation/:id", (req, res) => {
 router.get("/conversation/user/:id", (req, res) => {
   var query = { _id: req.params.id };
   Conversation.findOne(query).exec(function(error, result) {
-    participants = result.participants;
+    var participants = result.participants;
     if (req.user.id == participants[0]) {
       User.findById(participants[1], (err, data) => {
         if (err) return res.json({ success: false, error: err });
@@ -395,9 +395,11 @@ router.get("/conversation/user/:id", (req, res) => {
 app.use("/api", router);
 
 // set up front-end
-app.use(express.static(__dirname + '/../public/html'));
-app.use('/js', express.static(path.join(__dirname + '/../public/js')));
-app.use('/myposts', (req, res) => res.sendfile(path.resolve(__dirname + '/../public/html/index.html')));
+app.use(express.static(__dirname + "/../public/html"));
+app.use("/js", express.static(path.join(__dirname + "/../public/js")));
+app.use("/myposts", (req, res) =>
+  res.sendfile(path.resolve(__dirname + "/../public/html/index.html"))
+);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
