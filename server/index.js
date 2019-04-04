@@ -365,20 +365,6 @@ router.get("/conversations/user", (req, res) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data });
     });
-
-  // var query = { _id: req.user._id };
-  // User.findById(query)
-  //   .sort({ updatedAt: -1 })
-  //   .exec((err, data) => {
-  //     if (err) return res.json({ success: false, error: err });
-  //     return res.json({ success: true, data: data });
-  //   });
-
-  // var query = { _id: req.user._id };
-  // User.findById(query, (err, data) => {
-  //   if (err) return res.json({ success: false, error: err });
-  //   return res.json({ success: true, data: data });
-  // });
 });
 
 //Get conversation by conversation id
