@@ -6,12 +6,17 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Form,
+  FormGroup,
+  Label,
+  Input
 } from "reactstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 import "./post.css";
+import "./Postcard.css";
 
 class PostCard extends Component {
   constructor(props) {
@@ -27,7 +32,8 @@ class PostCard extends Component {
       modalDescription: "",
       modalId: "",
       createdBy: "",
-      updatedAt: ""
+      updatedAt: "",
+      searchTerms: []
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -72,10 +78,51 @@ class PostCard extends Component {
       .then(res => this.setState({ user: res.data.user }));
   };
 
+  matchTerm = skills => {
+    var splitSkills = skills.split(",");
+
+    if (
+      (this.state.searchTerms.length == 1 && this.state.searchTerms == "") ||
+      this.state.searchTerms.length == 0
+    ) {
+      return true;
+    }
+
+    for (var i = 0; i < splitSkills.length; i++) {
+      for (var j = 0; j < this.state.searchTerms.length; j++) {
+        if (
+          splitSkills[i].toUpperCase() ==
+          this.state.searchTerms[j].toUpperCase()
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
   render() {
     const { data } = this.state;
     return (
       <div>
+        <Form className="searchBar">
+          <div>
+            <FormGroup>
+              <Label id="searchBarLabel" for="searchBar">
+                Search for skills:
+              </Label>
+              <Input
+                type="text"
+                name="searchBar"
+                id="searchBar"
+                placeholder="Skills..."
+                onChange={e =>
+                  this.setState({ searchTerms: e.target.value.split(",") })
+                }
+              />
+            </FormGroup>
+          </div>
+        </Form>
         <div
           style={{
             borderRight: "2px solid lightgray",
@@ -85,54 +132,16 @@ class PostCard extends Component {
         >
           <ul>
             {data.length <= 0 ? (
-              <Spinner
-                style={{ position: "fixed", top: "50%", left: "50%" }}
-                color="primary"
-              />
+              <Spinner id="spinner" color="primary" />
             ) : (
               data.map((dat, index) => (
                 <div className="col-6 offset-md-3">
-                  <li
-                    style={{
-                      listStyleType: "none",
-                      margin: "20px",
-                      padding: "5px 5px 5px 20px",
-                      backgroundColor: "#FFFFFF",
-                      borderRadius: "10px",
-                      borderLeft: "6px solid #069BEE"
-                    }}
-                    key={dat._id}
-                  >
-                    <Button
-                      color="link"
-                      style={{ fontSize: "24pt", padding: "0px" }}
-                      onClick={e =>
-                        this.toggle(
-                          dat.title,
-                          dat.skills,
-                          dat.description,
-                          dat._id,
-                          dat.createdBy
-                        )
-                      }
-                    >
-                      {dat.title}
-                    </Button>
-                    <Modal
-                      isOpen={this.state.modal}
-                      toggle={e =>
-                        this.toggle(
-                          dat.title,
-                          dat.skills,
-                          dat.description,
-                          dat._id,
-                          dat.createdBy
-                        )
-                      }
-                      className={this.props.className}
-                    >
-                      <ModalHeader
-                        toggle={e =>
+                  {this.matchTerm(dat.skills) ? (
+                    <li className="postCard" key={dat._id}>
+                      <Button
+                        color="link"
+                        style={{ fontSize: "24pt", padding: "0px" }}
+                        onClick={e =>
                           this.toggle(
                             dat.title,
                             dat.skills,
@@ -142,120 +151,102 @@ class PostCard extends Component {
                           )
                         }
                       >
-                        {this.state.modalTitle}
-                      </ModalHeader>
-                      <ModalBody>
-                        Skills: {this.state.modalSkills}
-                        <hr /> Description: {this.state.modalDescription}
-                      </ModalBody>
-                      <ModalFooter>
-                        {this.state.user._id == this.state.createdBy ||
-                        this.state.user.isModerator ? (
-                          <React.Fragment>
-                            <Button
-                              tag={Link}
-                              style={{
-                                float: "right",
-                                backgroundColor: "#069BEE"
-                              }}
-                              to={"/post/edit/" + this.state.modalId}
-                            >
-                              {" "}
-                              Edit{" "}
-                            </Button>
-                            <Button
-                              tag={Link}
-                              style={{
-                                float: "right",
-                                backgroundColor: "#069BEE"
-                              }}
-                              onClick={() =>
-                                this.deletePostFromDb(this.state.modalId)
-                              }
-                              to="/"
-                            >
-                              Delete
-                            </Button>
-                          </React.Fragment>
-                        ) : (
-                          <React.Fragment> </React.Fragment>
-                        )}
-                        {this.state.user._id != this.state.createdBy ? (
-                          <Button
-                            tag={Link}
-                            style={{
-                              float: "right",
-                              backgroundColor: "#069BEE"
-                            }}
-                            onClick={() => this.createConversation()}
-                            to="/inbox/0"
-                          >
-                            Contact
-                          </Button>
-                        ) : (
-                          <React.Fragment> </React.Fragment>
-                        )}
-                      </ModalFooter>
-                    </Modal>
-                    <br />
-                    <span
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: "16pt",
-                        color: "black",
-                        float: "left"
-                      }}
-                    >
-                      {" "}
-                      Skills:{" "}
-                    </span>
-                    <span style={{ fontSize: "14pt" }}>
-                      {dat.skills.split(",").map(skill => (
-                        <div
-                          style={{
-                            borderStyle: "solid",
-                            borderWidth: "1px",
-                            float: "left",
-                            borderRadius: "5px",
-                            marginRight: "5px",
-                            marginLeft: "5px",
-                            padding: "3px",
-                            backgroundColor: "#c9ddff"
-                          }}
+                        {dat.title}
+                      </Button>
+                      <Modal
+                        isOpen={this.state.modal}
+                        toggle={e =>
+                          this.toggle(
+                            dat.title,
+                            dat.skills,
+                            dat.description,
+                            dat._id,
+                            dat.createdBy
+                          )
+                        }
+                        className={this.props.className}
+                      >
+                        <ModalHeader
+                          toggle={e =>
+                            this.toggle(
+                              dat.title,
+                              dat.skills,
+                              dat.description,
+                              dat._id,
+                              dat.createdBy
+                            )
+                          }
                         >
-                          {skill}
-                        </div>
-                      ))}
-                    </span>{" "}
-                    <br />
-                    <br />
-                    <span
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: "12pt",
-                        color: "gray"
-                      }}
-                    >
-                      {" "}
-                      Description:{" "}
-                    </span>
-                    <span style={{ fontSize: "12pt" }}>{dat.description}</span>
-                    <br />
-                    <span
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: "12pt",
-                        color: "gray"
-                      }}
-                    >
-                      Date:{" "}
-                    </span>
-                    <span style={{ fontSize: "12pt" }}>
-                      {dat.updatedAt.substring(0, 10)}
-                    </span>
-                    <br />
-                    <hr />
-                  </li>
+                          {this.state.modalTitle}
+                        </ModalHeader>
+                        <ModalBody>
+                          Skills: {this.state.modalSkills}
+                          <hr /> Description: {this.state.modalDescription}
+                        </ModalBody>
+                        <ModalFooter>
+                          {this.state.user._id == this.state.createdBy ||
+                          this.state.user.isModerator ? (
+                            <React.Fragment>
+                              <Button
+                                className="modalButton"
+                                tag={Link}
+                                to={"/post/edit/" + this.state.modalId}
+                              >
+                                {" "}
+                                Edit{" "}
+                              </Button>
+                              <Button
+                                tag={Link}
+                                className="modalButton"
+                                onClick={() =>
+                                  this.deletePostFromDb(this.state.modalId)
+                                }
+                                to="/"
+                              >
+                                Delete
+                              </Button>
+                            </React.Fragment>
+                          ) : (
+                            <React.Fragment> </React.Fragment>
+                          )}
+                          {this.state.user._id != this.state.createdBy ? (
+                            <Button
+                              tag={Link}
+                              className="modalButton"
+                              onClick={() => this.createConversation()}
+                              to="/inbox/0"
+                            >
+                              Contact
+                            </Button>
+                          ) : (
+                            <React.Fragment> </React.Fragment>
+                          )}
+                        </ModalFooter>
+                      </Modal>
+                      <br />
+                      <span className="skillHeader"> Skills: </span>
+                      <span style={{ fontSize: "14pt" }}>
+                        {dat.skills.split(",").map(skill => (
+                          <div className="skillBox">{skill}</div>
+                        ))}
+                      </span>{" "}
+                      <br />
+                      <br />
+                      <span className="headerSmall"> Description: </span>
+                      <span style={{ fontSize: "12pt" }}>
+                        {dat.description}
+                      </span>
+                      <br />
+                      <span className="headerSmall">Date: </span>
+                      <span style={{ fontSize: "12pt" }}>
+                        {dat.updatedAt.substring(0, 10)}
+                      </span>
+                      <br />
+                      <hr />
+                    </li>
+                  ) : (
+                    <React.Fragment />
+                  )}
                 </div>
               ))
             )}

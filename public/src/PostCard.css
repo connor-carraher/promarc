@@ -1,0 +1,64 @@
+#spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+#searchBarLabel {
+  margin-top: 20px;
+  font-weight: bold !important;
+}
+
+.searchBar {
+  width: 50%;
+  margin: auto;
+  position: relative;
+  left: 18px;
+}
+
+.bigContainer {
+  background-color: #ffffff;
+  border-left: 12px solid #069bee;
+  height: 100%;
+  padding: 20px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.postCard {
+  list-style-type: none;
+  margin: 20px;
+  padding: 5px 5px 5px 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border-left: 6px solid #069bee;
+}
+
+.modalButton {
+  float: right;
+  background-color: #069bee !important;
+}
+
+.skillBox {
+  border-style: solid;
+  border-width: 1px;
+  float: left;
+  border-radius: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  padding: 3px;
+  background-color: #c9ddff;
+}
+
+.headerSmall {
+  font-weight: bold;
+  font-size: 12pt;
+  color: gray;
+}
+
+.skillHeader {
+  font-weight: bold;
+  font-size: 16pt;
+  color: black;
+  float: left;
+}
