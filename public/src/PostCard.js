@@ -90,8 +90,8 @@ class PostCard extends Component {
     for (var i = 0; i < splitSkills.length; i++) {
       for (var j = 0; j < this.state.searchTerms.length; j++) {
         if (
-          splitSkills[i].toUpperCase() ==
-          this.state.searchTerms[j].toUpperCase()
+          splitSkills[i].toUpperCase().trim() ==
+          this.state.searchTerms[j].toUpperCase().trim()
         ) {
           return true;
         }
