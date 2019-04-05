@@ -162,7 +162,7 @@ class Inbox extends Component {
                   this.setState({ outboundMessage: e.target.value })
                 }
                 onKeyPress={this.handleEnter}
-                autofocus="autofocus"
+                autoFocus="autofocus"
               />
               <InputGroupAddon addonType="append">
                 <Button onClick={e => this.sendMessage()}>Send</Button>

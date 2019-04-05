@@ -17,16 +17,23 @@
   font-size: 18px;
   font-weight: bold;
   margin-left: 60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .lastMessage {
   margin-left: 60px;
   color: darkgray;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .subpanel {
   width: 75%;
   float: left;
+  padding-right: 15px;
 }
 
 .timestampConversation {
