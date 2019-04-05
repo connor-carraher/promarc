@@ -28,17 +28,7 @@ class CreatePost extends Component {
           backgroundColor: "#DAE0E6"
         }}
       >
-        <Container
-          class=".col-sm-12 .col-md-6 .offset-md-3"
-          style={{
-            backgroundColor: "#FFFFFF",
-            borderLeft: "12px solid #069BEE",
-            height: "100%",
-            padding: "20px",
-            borderRadius: "15px",
-            position: "relative"
-          }}
-        >
+        <Container class=".col-sm-12 .col-md-6 .offset-md-3 bigContainer">
           <Form>
             <div>
               <FormGroup>
