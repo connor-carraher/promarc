@@ -2,3 +2,12 @@
   font-weight: bold;
   font-size: 20pt;
 }
+
+.bigContainer {
+  background-color: #ffffff;
+  border-left: 12px solid #069bee;
+  height: 100%;
+  padding: 20px;
+  border-radius: 15px;
+  position: relative;
+}
