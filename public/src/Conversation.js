@@ -43,27 +43,38 @@ class Conversation extends Component {
       <React.Fragment>
         {isSelected ? (
           <div className="panel selected" onClick={this.props.onClick}>
-            {recipient.recipient.data ? (
-              <div>
-                <div style={{ height: "100%", float: "left" }}>
-                  <Avatar
-                    name={recipient.recipient.data.username}
-                    size="50"
-                    round
-                    color="#069bee"
-                  />
+            <div className="subpanel">
+              {recipient.recipient.data ? (
+                <div>
+                  <div style={{ height: "100%", float: "left" }}>
+                    <Avatar
+                      name={recipient.recipient.data.username}
+                      size="50"
+                      round
+                      color="#069bee"
+                    />
+                  </div>
+                  <div className="user">
+                    {recipient.recipient.data.username}
+                  </div>
                 </div>
-                <div className="user">{recipient.recipient.data.username}</div>
-              </div>
-            ) : (
-              <Spinner
-                color="primary"
-                style={{ position: "fixed", top: "50%", left: "50%" }}
-              />
-            )}
-            {this.state.lastMessage.data ? (
-              <div className="lastMessage">
-                {this.state.lastMessage.data.content}
+              ) : (
+                <Spinner
+                  color="primary"
+                  style={{ position: "fixed", top: "50%", left: "50%" }}
+                />
+              )}
+              {this.state.lastMessage.data ? (
+                <div className="lastMessage">
+                  {this.state.lastMessage.data.content}
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            {this.state.conversation.data ? (
+              <div className="timestampConversation">
+                {this.state.conversation.data.updatedAt.substring(0, 10)}
               </div>
             ) : (
               ""
@@ -71,34 +82,46 @@ class Conversation extends Component {
           </div>
         ) : (
           <div className="panel" onClick={this.props.onClick}>
-            {recipient.recipient.data ? (
-              <div>
-                <div style={{ height: "100%", float: "left" }}>
-                  <Avatar
-                    name={recipient.recipient.data.username}
-                    size="50"
-                    round
-                    color="#069bee"
-                  />
+            <div className="subpanel">
+              {recipient.recipient.data ? (
+                <div>
+                  <div style={{ height: "100%", float: "left" }}>
+                    <Avatar
+                      name={recipient.recipient.data.username}
+                      size="50"
+                      round
+                      color="#069bee"
+                    />
+                  </div>
+                  <div className="user">
+                    {recipient.recipient.data.username}
+                  </div>
                 </div>
-                <div className="user">{recipient.recipient.data.username}</div>
-              </div>
-            ) : (
-              <Spinner
-                color="primary"
-                style={{ position: "relative", top: "20%", left: "40%" }}
-              />
-            )}
-            {this.state.lastMessage.data ? (
-              <div className="lastMessage">
-                {" "}
-                {this.state.lastMessage.data.content}
+              ) : (
+                <Spinner
+                  color="primary"
+                  style={{ position: "relative", top: "20%", left: "40%" }}
+                />
+              )}
+              {this.state.lastMessage.data ? (
+                <div className="lastMessage">
+                  {" "}
+                  {this.state.lastMessage.data.content}
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            {this.state.conversation.data ? (
+              <div className="timestampConversation">
+                {this.state.conversation.data.updatedAt.substring(0, 10)}
               </div>
             ) : (
               ""
             )}
           </div>
         )}
+
         <hr style={{ marginTop: "0px", marginBottom: "0px" }} />
       </React.Fragment>
     );

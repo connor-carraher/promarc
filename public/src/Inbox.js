@@ -93,7 +93,6 @@ class Inbox extends Component {
   render() {
     const { data, conversations, messages } = this.state;
     const { conversationId } = this.props.match.params.conversationId;
-    console.log(conversations);
     return (
       <div>
         <div

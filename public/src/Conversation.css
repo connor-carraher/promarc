@@ -23,3 +23,18 @@
   margin-left: 60px;
   color: darkgray;
 }
+
+.subpanel {
+  width: 75%;
+  float: left;
+}
+
+.timestampConversation {
+  float: left;
+  font-size: 14px;
+  width: 25%;
+  color: darkgray;
+  position: relative;
+  top: 18px;
+  left: -10px;
+}
