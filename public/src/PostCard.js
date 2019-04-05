@@ -15,7 +15,6 @@ import {
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-import "./post.css";
 import "./Postcard.css";
 
 class PostCard extends Component {

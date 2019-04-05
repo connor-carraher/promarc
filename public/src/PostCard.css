@@ -62,3 +62,7 @@
   color: black;
   float: left;
 }
+
+.modal-backdrop {
+  opacity: 0.2 !important;
+}
