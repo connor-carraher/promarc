@@ -21,7 +21,8 @@ class Inbox extends Component {
       userId: "",
       conversationId: this.props.match.params.conversationId,
       outboundMessage: "",
-      messages: []
+      messages: [],
+      intervalIsSet: false
     };
 
     //this.scrollBottom = this.scrollBottom.bind(this);
@@ -32,10 +33,22 @@ class Inbox extends Component {
     this.getConversationsFromDb();
     this.getDataFromDb(this.props.match.params.conversationId);
     this.scrollBottomSmooth();
+
+    if (!this.state.intervalIsSet) {
+      let interval = setInterval(this.getConversationInterval, 10000);
+      this.setState({ intervalIsSet: interval });
+    }
   }
 
   componentDidUpdate() {
     this.scrollBottomAuto();
+  }
+
+  componentWillUnmount() {
+    if (this.state.intervalIsSet) {
+      clearInterval(this.state.intervalIsSet);
+      this.setState({ intervalIsSet: null });
+    }
   }
 
   getConversationsFromDb = () => {
@@ -44,7 +57,15 @@ class Inbox extends Component {
       .then(res => this.setState({ conversations: res.data.data }));
   };
 
+  getConversationInterval = () => {
+    axios
+      .get("/api/conversation/messages/" + this.state.conversationId)
+      .then(res => this.setState({ messages: res.data }));
+    this.scrollBottomSmooth();
+  };
+
   getDataFromDb = dat => {
+    this.setState({ conversationId: dat });
     this.props.history.push("/inbox/" + dat);
     axios
       .get("/api/conversation/messages/" + dat)
@@ -92,7 +113,7 @@ class Inbox extends Component {
 
   render() {
     const { data, conversations, messages } = this.state;
-    const { conversationId } = this.props.match.params.conversationId;
+    const { conversationId } = this.state.conversationId;
     return (
       <div>
         <div
@@ -112,7 +133,7 @@ class Inbox extends Component {
                   <Conversation
                     key={dat._id}
                     conversationId={dat._id}
-                    isSelected={dat == this.props.match.params.conversationId}
+                    isSelected={dat._id == this.state.conversationId}
                     userId={this.state.userId}
                     onClick={e => this.getDataFromDb(dat._id)}
                   />

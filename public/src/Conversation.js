@@ -19,7 +19,7 @@ class Conversation extends Component {
     this.getLastMessage();
 
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getConversation, 10000);
+      let interval = setInterval(this.getLastMessage, 10000);
       this.setState({ intervalIsSet: interval });
     }
   }
