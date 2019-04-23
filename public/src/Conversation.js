@@ -9,13 +9,26 @@ class Conversation extends Component {
   state = {
     conversation: "",
     recipient: "",
-    lastMessage: ""
+    lastMessage: "",
+    intervalIsSet: false
   };
 
   componentDidMount() {
     this.getConversation();
     this.getRecipient();
     this.getLastMessage();
+
+    if (!this.state.intervalIsSet) {
+      let interval = setInterval(this.getLastMessage, 10000);
+      this.setState({ intervalIsSet: interval });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.intervalIsSet) {
+      clearInterval(this.state.intervalIsSet);
+      this.setState({ intervalIsSet: null });
+    }
   }
 
   getConversation = () => {
