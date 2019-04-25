@@ -149,10 +149,20 @@ passport.deserializeUser(function(id, done) {
  *
  */
 
-//Get All Posts
+//Get All Posts Sorted By Date Updated
 router.get("/posts", (req, res) => {
   Post.find()
     .sort({ updatedAt: -1 })
+    .exec((err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data });
+    });
+});
+
+// Get All Posts Sorted By Flags
+router.get("/posts/flag", (req, res) => {
+  Post.find()
+    .sort({ numFlags: -1 })
     .exec((err, data) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data });
@@ -180,8 +190,6 @@ router.post("/post/edit/:id", (req, res) => {
       description: update.description
     }
   }).exec();
-
-  // Post.findOneAndUpdate(query, update).exec();
 });
 
 //Post Deletion
@@ -218,6 +226,7 @@ router.post("/putData", (req, res) => {
   data.description = description;
   data.skills = skills;
   data.createdBy = req.user;
+  data.numFlags = 0;
 
   var query = { username: req.user.username };
   User.update(query, { $push: { posts: data } }).exec();
@@ -226,6 +235,30 @@ router.post("/putData", (req, res) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
+});
+
+//Post Flag Increment
+router.post("/post/flag/:id", (req, res) => {
+  const { id } = req.params;
+  var query = { _id: id };
+
+  Post.findOneAndUpdate(query, {
+    $inc: {
+      numFlags: 1
+    }
+  }).exec();
+});
+
+//Post Flag Clear
+router.post("/post/flagclear/:id", (req, res) => {
+  const { id } = req.params;
+  var query = { _id: id };
+
+  Post.findOneAndUpdate(query, {
+    $set: {
+      numFlags: 0
+    }
+  }).exec();
 });
 
 /*
