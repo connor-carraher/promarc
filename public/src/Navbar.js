@@ -12,13 +12,33 @@ import {
   DropdownItem
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 class Navbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: []
+    };
+  }
+
+  componentDidMount() {
+    this.getCurrUser();
+  }
+
   logout = () => {
     Cookies.remove("session");
     Cookies.remove("session.sig");
     window.location.reload();
   };
+
+  getCurrUser = () => {
+    axios
+      .get("/api/getCurrUser")
+      .then(res => this.setState({ user: res.data.user }));
+  };
+
+  // { ? () : () }
   render() {
     return (
       <div style={{ marginBottom: "55px" }}>
@@ -64,6 +84,24 @@ class Navbar extends Component {
                     My Posts
                   </NavLink>
                 </DropdownItem>
+
+                {this.state.user.isModerator ? (
+                  <React.Fragment>
+                    <hr />
+                    <DropdownItem>
+                      {" "}
+                      <NavLink
+                        tag={Link}
+                        to="/moderatorview/"
+                        style={{ color: "#000000" }}
+                      >
+                        Moderator View
+                      </NavLink>
+                    </DropdownItem>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment />
+                )}
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavItem>

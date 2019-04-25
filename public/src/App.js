@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import EditPost from "./EditPost";
 import MyPosts from "./MyPosts";
 import Inbox from "./Inbox";
+import ModeratorView from "./ModeratorView";
 import "./App.css";
 
 class App extends Component {
@@ -33,6 +34,7 @@ class App extends Component {
                 <Route path="/createpost" component={CreatePost} />
                 <Route path="/inbox/:conversationId" component={Inbox} />
                 <Route path="/myposts" component={MyPosts} />
+                <Route path="/moderatorview" component={ModeratorView} />
                 <Route path="/post/edit/:id" component={EditPost} />
                 <Route path="/post/:id" component={Post} />
                 <Route path="/" component={PostCard} />

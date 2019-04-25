@@ -53,6 +53,11 @@ class PostCard extends Component {
     this.getCurrUser();
   }
 
+  incrementFlag = id => {
+    axios.post("/api/post/flag/" + id);
+    window.location.reload();
+  };
+
   getDataFromDb = () => {
     fetch("/api/posts")
       .then(data => data.json())
@@ -209,14 +214,27 @@ class PostCard extends Component {
                             <React.Fragment> </React.Fragment>
                           )}
                           {this.state.user._id != this.state.createdBy ? (
-                            <Button
-                              tag={Link}
-                              className="modalButton"
-                              onClick={() => this.createConversation()}
-                              to="/inbox/0"
-                            >
-                              Contact
-                            </Button>
+                            <React.Fragment>
+                              <Button
+                                tag={Link}
+                                className="modalButton"
+                                onClick={() => this.createConversation()}
+                                to="/inbox/0"
+                              >
+                                Contact
+                              </Button>
+
+                              <Button
+                                tag={Link}
+                                className="modalButton"
+                                onClick={() =>
+                                  this.incrementFlag(this.state.modalId)
+                                }
+                                to="/#"
+                              >
+                                Flag as Inappropriate
+                              </Button>
+                            </React.Fragment>
                           ) : (
                             <React.Fragment> </React.Fragment>
                           )}

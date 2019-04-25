@@ -9,6 +9,14 @@
   font-weight: bold !important;
 }
 
+.flagsDiv {
+  justify-content: flex-start !important;
+}
+
+.empty {
+  width: 140px;
+}
+
 .searchBar {
   width: 50%;
   margin: auto;
