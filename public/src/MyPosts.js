@@ -54,13 +54,6 @@ class MyPosts extends Component {
     axios.delete("/api/post/delete/" + id);
   };
 
-  createConversation = () => {
-    axios.post("/api/conversation/create/", {
-      receiver: this.state.createdBy,
-      sender: this.state.user._id
-    });
-  };
-
   getCurrUser = () => {
     axios
       .get("/api/getCurrUser")
@@ -148,8 +141,11 @@ class MyPosts extends Component {
                         {this.state.modalTitle}
                       </ModalHeader>
                       <ModalBody>
-                        Skills: {this.state.modalSkills}
-                        <hr /> Description: {this.state.modalDescription}
+                        <div style={{ fontWeight: "bold" }}> Skills: </div>{" "}
+                        {this.state.modalSkills}
+                        <hr />{" "}
+                        <div style={{ fontWeight: "bold" }}>Description: </div>
+                        {this.state.modalDescription}
                       </ModalBody>
                       <ModalFooter>
                         {this.state.user._id == this.state.createdBy ||
@@ -181,16 +177,6 @@ class MyPosts extends Component {
                         ) : (
                           <React.Fragment> </React.Fragment>
                         )}
-                        <Button
-                          style={{
-                            float: "right",
-                            backgroundColor: "#069BEE"
-                          }}
-                          onClick={() => this.createConversation()}
-                          href="/inbox"
-                        >
-                          Contact
-                        </Button>
                       </ModalFooter>
                     </Modal>
                     <br />
