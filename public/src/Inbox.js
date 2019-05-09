@@ -35,7 +35,7 @@ class Inbox extends Component {
     this.scrollBottomSmooth();
 
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getConversationInterval, 10000);
+      let interval = setInterval(this.getConversationInterval, 1000);
       this.setState({ intervalIsSet: interval });
     }
   }
